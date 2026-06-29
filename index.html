@@ -599,6 +599,21 @@
     }
     .popup-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(13,158,138,0.4); }
     .popup-note { text-align: center; font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 12px; }
+    .popup-trust {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 16px; padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px; color: rgba(255,255,255,0.4);
+    }
+    .popup-trust-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #00f07a;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
 
     /* LIVE DEMO */
     .live-demo { background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.05) 100%); }
@@ -680,6 +695,426 @@
       background: rgba(255,255,255,0.04); padding: 10px 14px; border-radius: 100px;
     }
 
+    /* FLOW */
+    .cs-flow {
+      display: flex; align-items: flex-start; justify-content: center;
+      gap: 0; max-width: 1100px; margin: 0 auto 56px; position: relative;
+      flex-wrap: wrap;
+    }
+    .cs-step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; flex: 1; min-width: 160px; max-width: 200px;
+      position: relative; opacity: 0; transform: translateY(24px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .cs-step.visible { opacity: 1; transform: translateY(0); }
+    .cs-step-icon {
+      width: 72px; height: 72px; border-radius: 20px;
+      background: rgba(13,158,138,0.1); border: 1px solid rgba(13,158,138,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; position: relative;
+      transition: 0.4s; cursor: default;
+    }
+    .cs-step:hover .cs-step-icon {
+      background: rgba(13,158,138,0.18); border-color: rgba(13,158,138,0.4);
+      transform: translateY(-4px); box-shadow: 0 12px 40px rgba(13,158,138,0.15);
+    }
+    .cs-step-num {
+      position: absolute; top: -8px; right: -8px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: #051f1f;
+    }
+    .cs-step h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .cs-step p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; max-width: 180px; }
+
+    /* ARROWS between steps */
+    .cs-arrow {
+      display: flex; align-items: center; justify-content: center;
+      padding-top: 30px; flex-shrink: 0; width: 48px;
+      opacity: 0; transition: opacity 0.4s ease 0.3s;
+    }
+    .cs-arrow.visible { opacity: 1; }
+    .cs-arrow svg { width: 32px; height: 20px; }
+
+    @media (max-width: 900px) {
+      .cs-flow { flex-direction: column; align-items: center; gap: 0; }
+      .cs-step { max-width: 320px; }
+      .cs-arrow { transform: rotate(90deg); padding: 8px 0; width: auto; }
+    }
+
+    /* STATS ROW */
+    .cs-stats {
+      display: flex; justify-content: center; gap: 48px;
+      padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.06);
+      flex-wrap: wrap;
+    }
+    .cs-stat { text-align: center; }
+    .cs-stat-num {
+      font-size: clamp(32px, 4vw, 48px); font-weight: 900; letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .cs-stat-label { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+    /* FLOW CONTAINER */
+    .flow-container {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .flow-line {
+      position: absolute;
+      top: 48px;
+      left: 60px;
+      right: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      z-index: 0;
+    }
+    .flow-line-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0d9e8a, #00f07a);
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+    .flow-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .flow-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      flex: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .flow-step.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .flow-step:nth-child(2) { transition-delay: 0.1s; }
+    .flow-step:nth-child(3) { transition-delay: 0.2s; }
+    .flow-step:nth-child(4) { transition-delay: 0.3s; }
+    .flow-step:nth-child(5) { transition-delay: 0.4s; }
+
+    .step-icon-wrap {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.03);
+      border: 2px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .step-icon-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      transition: border-color 0.4s ease;
+    }
+    .flow-step.active .step-icon-wrap {
+      background: rgba(13,158,138,0.15);
+      border-color: #0d9e8a;
+      transform: scale(1.1);
+    }
+    .flow-step.active .step-icon-wrap::after {
+      border-color: rgba(13,158,138,0.3);
+    }
+    .step-icon-wrap svg {
+      width: 36px;
+      height: 36px;
+      stroke: rgba(255,255,255,0.4);
+      transition: stroke 0.4s ease;
+    }
+    .flow-step.active .step-icon-wrap svg {
+      stroke: #00f07a;
+    }
+
+    .step-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      transition: color 0.4s ease;
+    }
+    .flow-step.active .step-number { color: #0d9e8a; }
+
+    .step-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      transition: color 0.4s ease;
+      max-width: 120px;
+    }
+    .flow-step.active .step-title { color: #fff; }
+
+    .step-example {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      max-width: 140px;
+      line-height: 1.5;
+      transition: color 0.4s ease;
+      font-style: italic;
+    }
+    .flow-step.active .step-example { color: rgba(255,255,255,0.5); }
+
+    /* STEP DETAIL CARD */
+    .step-detail-card {
+      max-width: 900px;
+      margin: 48px auto 0;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: all 0.4s ease;
+    }
+    .step-detail-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .detail-left h3 {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .detail-left p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+    .detail-right {
+      background: rgba(13,158,138,0.06);
+      border: 1px solid rgba(13,158,138,0.15);
+      border-radius: 16px;
+      padding: 24px;
+      font-family: 'Inter', monospace;
+    }
+    .detail-chat-bubble {
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      max-width: 85%;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s ease;
+    }
+    .detail-chat-bubble.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .detail-chat-bubble.customer {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+    .detail-chat-bubble.bot {
+      background: rgba(13,158,138,0.15);
+      color: rgba(255,255,255,0.85);
+      border-bottom-left-radius: 4px;
+    }
+    .detail-chat-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* STATS ROW */
+    .core-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      flex-wrap: wrap;
+    }
+    .core-stat {
+      text-align: center;
+    }
+    .core-stat-value {
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .core-stat-value.green { color: #00f07a; }
+    .core-stat-value.teal { color: #0d9e8a; }
+    .core-stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .flow-steps { flex-direction: column; gap: 24px; align-items: center; }
+      .flow-line { display: none; }
+      .flow-step { flex-direction: row; gap: 16px; }
+      .step-icon-wrap { width: 64px; height: 64px; flex-shrink: 0; }
+      .step-icon-wrap svg { width: 28px; height: 28px; }
+      .step-title, .step-example { text-align: left; max-width: none; }
+      .step-detail-card { grid-template-columns: 1fr; }
+      .core-stats { gap: 32px; }
+    }
+
+    /* FLOW STEPS */
+    .flow-steps { display: flex; flex-direction: column; gap: 0; }
+    .flow-step {
+      display: flex; align-items: flex-start; gap: 16px; position: relative;
+      padding: 24px 0; cursor: default; transition: 0.3s;
+    }
+    .flow-step:hover { transform: translateX(8px); }
+    .flow-step-icon {
+      width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
+      background: rgba(0,240,122,0.08); border: 1px solid rgba(0,240,122,0.2);
+      display: flex; align-items: center; justify-content: center;
+      transition: 0.3s;
+    }
+    .flow-step:hover .flow-step-icon {
+      background: rgba(0,240,122,0.15); border-color: rgba(0,240,122,0.4);
+      box-shadow: 0 0 30px rgba(0,240,122,0.15);
+    }
+    .flow-step-content { flex: 1; }
+    .flow-step-num {
+      font-size: 11px; font-weight: 800; color: #00f07a; letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+    .flow-step h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .flow-step p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+    .flow-connector {
+      position: absolute; left: 27px; bottom: -2px; width: 2px; height: 24px;
+      background: linear-gradient(180deg, rgba(0,240,122,0.4), rgba(0,240,122,0.1));
+    }
+    .flow-step:last-child .flow-connector { display: none; }
+
+    @media (max-width: 768px) {
+      .flow-step { padding: 20px 0; }
+    }
+
+    /* FLOW PHONE MOCKUP */
+    .flow-phone { position: relative; display: flex; justify-content: center; }
+    .flow-phone-inner {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px; overflow: hidden; width: 100%; max-width: 320px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    }
+    .flow-phone-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,240,122,0.12) 0%, transparent 70%);
+      pointer-events: none; z-index: -1;
+    }
+    .flow-phone-header {
+      background: rgba(13,158,138,0.15); padding: 16px 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .flow-phone-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .flow-phone-name { font-size: 15px; font-weight: 600; }
+    .flow-phone-status { font-size: 11px; color: rgba(255,255,255,0.4); }
+    .flow-phone-body {
+      padding: 20px; display: flex; flex-direction: column; gap: 12px;
+      min-height: 340px;
+    }
+    .flow-msg { display: flex; gap: 8px; align-items: flex-end; opacity: 0; transform: translateY(10px); animation: flowMsgIn 0.4s ease forwards; }
+    .flow-msg.user { flex-direction: row-reverse; }
+    .flow-msg-avatar {
+      width: 24px; height: 24px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 700; flex-shrink: 0;
+    }
+    .flow-msg-avatar.bot { background: rgba(13,158,138,0.2); color: #0d9e8a; }
+    .flow-msg-avatar.cust { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+    .flow-msg-bubble {
+      padding: 10px 14px; border-radius: 14px; font-size: 13px; line-height: 1.5;
+      max-width: 80%;
+    }
+    .flow-msg-bubble.bot {
+      background: rgba(13,158,138,0.12); color: rgba(255,255,255,0.8);
+      border-bottom-left-radius: 4px;
+    }
+    .flow-msg-bubble.user {
+      background: rgba(13,158,138,0.3); color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .flow-msg-bubble .time {
+      display: block; font-size: 10px; color: rgba(255,255,255,0.3);
+      margin-top: 4px; text-align: right;
+    }
+    .flow-msg-bubble .step-tag {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      background: rgba(0,240,122,0.15); color: #00f07a;
+      padding: 2px 8px; border-radius: 100px; margin-top: 6px;
+    }
+    @keyframes flowMsgIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .flow-msg:nth-child(1) { animation-delay: 0.1s; }
+    .flow-msg:nth-child(2) { animation-delay: 0.4s; }
+    .flow-msg:nth-child(3) { animation-delay: 0.7s; }
+    .flow-msg:nth-child(4) { animation-delay: 1s; }
+    .flow-msg:nth-child(5) { animation-delay: 1.3s; }
+    .flow-msg:nth-child(6) { animation-delay: 1.6s; }
+    .flow-msg:nth-child(7) { animation-delay: 1.9s; }
+
+    @media (max-width: 768px) {
+      .flow-phone-inner { max-width: 300px; }
+      .flow-phone-body { min-height: 280px; padding: 16px; }
+    }
+
+    /* FLOW STATS */
+    .flow-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+      max-width: 800px; margin: 56px auto 0;
+      padding-top: 48px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .flow-stat { text-align: center; }
+    .flow-stat-num {
+      font-size: clamp(32px, 4vw, 42px); font-weight: 900;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .flow-stat-label {
+      font-size: 13px; color: rgba(255,255,255,0.45); margin-top: 4px;
+    }
+    @media (max-width: 600px) {
+      .flow-stats { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    }
+
     /* BEFORE VS AFTER */
     .before-after { background: #051f1f; }
     .ba-grid {
@@ -721,6 +1156,1511 @@
     .ba-card.before .ba-stat-num { color: #e03a3a; }
     .ba-card.after .ba-stat-num { color: #00f07a; }
     .ba-stat-label { font-size: 12px; color: rgba(255,255,255,0.35); }
+
+    /* CORE SOLUTION FLOW */
+    .core-solution {
+      padding: 80px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .core-solution::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 20%, rgba(13,158,138,0.08), transparent);
+      pointer-events: none;
+    }
+    .core-solution .section-label { margin-bottom: 12px; }
+    .core-solution .section-title { margin-bottom: 8px; }
+    .core-solution .section-sub { margin: 0 auto 48px; max-width: 520px; }
+
+    .flow-wrapper {
+      max-width: 1000px; margin: 0 auto; position: relative;
+    }
+
+    /* Horizontal connector line */
+    .flow-connector {
+      position: absolute; top: 44px; left: 60px; right: 60px; height: 3px;
+      background: rgba(255,255,255,0.06); border-radius: 2px; z-index: 0;
+    }
+    .flow-connector-fill {
+      position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+      background: linear-gradient(90deg, #0d9e8a, #00f07a);
+      border-radius: 2px; transition: width 1.2s ease;
+    }
+    .flow-wrapper.animated .flow-connector-fill { width: 100%; }
+
+    .flow-steps {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+      position: relative; z-index: 1;
+    }
+
+    .flow-step {
+      text-align: center; position: relative;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .flow-step.visible {
+      opacity: 1; transform: translateY(0);
+    }
+
+    .flow-step-icon {
+      width: 88px; height: 88px; border-radius: 50%; margin: 0 auto 16px;
+      background: rgba(255,255,255,0.03);
+      border: 2px solid rgba(255,255,255,0.08);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.4s ease; position: relative;
+    }
+    .flow-step-icon svg { width: 36px; height: 36px; transition: transform 0.3s; }
+    .flow-step:hover .flow-step-icon {
+      border-color: #0d9e8a;
+      background: rgba(13,158,138,0.1);
+      box-shadow: 0 0 40px rgba(13,158,138,0.2);
+      transform: scale(1.08);
+    }
+    .flow-step:hover .flow-step-icon svg { transform: scale(1.1); }
+
+    .flow-step-num {
+      position: absolute; top: -6px; right: -6px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: #051f1f;
+    }
+
+    .flow-step-label {
+      font-size: 15px; font-weight: 700; margin-bottom: 6px;
+      transition: color 0.3s;
+    }
+    .flow-step:hover .flow-step-label { color: #00f07a; }
+
+    .flow-step-desc {
+      font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6;
+      max-width: 160px; margin: 0 auto;
+    }
+
+    .flow-arrow {
+      position: absolute; top: 44px; right: -18px;
+      color: rgba(255,255,255,0.12); font-size: 18px; z-index: 2;
+      transform: translateY(-50%);
+    }
+
+    .flow-step:last-child .flow-arrow { display: none; }
+
+    /* Stats bar under flow */
+    .flow-stats {
+      display: flex; justify-content: center; gap: 40px; margin-top: 48px;
+      padding: 24px 32px; border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      max-width: 700px; margin-left: auto; margin-right: auto;
+    }
+    .flow-stat {
+      text-align: center;
+    }
+    .flow-stat-num {
+      font-size: 28px; font-weight: 800;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .flow-stat-label {
+      font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px;
+    }
+
+    .flow-cta {
+      text-align: center; margin-top: 40px;
+    }
+    .flow-cta .btn-primary { font-size: 14px; padding: 14px 28px; }
+
+    @media (max-width: 768px) {
+      .flow-steps { grid-template-columns: 1fr; gap: 28px; }
+      .flow-connector { display: none; }
+      .flow-arrow { display: none; }
+      .flow-step { display: flex; align-items: center; gap: 16px; text-align: left; }
+      .flow-step-icon { width: 64px; height: 64px; flex-shrink: 0; margin: 0; }
+      .flow-step-icon svg { width: 28px; height: 28px; }
+      .flow-step-num { width: 22px; height: 22px; font-size: 10px; top: -4px; right: -4px; }
+      .flow-step-desc { max-width: none; }
+      .flow-stats { gap: 24px; padding: 20px; }
+      .flow-stat-num { font-size: 22px; }
+    }
+
+    /* CORE SOLUTION - Interactive Pipeline */
+    .flow-pipeline {
+      display: flex; align-items: flex-start; justify-content: center;
+      gap: 0; max-width: 1000px; margin: 0 auto 48px; position: relative; padding: 0 20px;
+    }
+
+    .flow-node {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      flex: 1; position: relative; z-index: 1; cursor: pointer;
+    }
+
+    .flow-node-icon {
+      width: 88px; height: 88px; border-radius: 50%;
+      background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; position: relative;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .flow-node:hover .flow-node-icon {
+      border-color: rgba(13,158,138,0.5); background: rgba(13,158,138,0.08);
+      transform: translateY(-4px);
+    }
+    .flow-node.active .flow-node-icon {
+      border-color: #0d9e8a; background: rgba(13,158,138,0.15);
+      box-shadow: 0 0 0 6px rgba(13,158,138,0.12), 0 0 32px rgba(13,158,138,0.25);
+      transform: translateY(-4px) scale(1.05);
+    }
+
+    .flow-node-icon svg {
+      width: 36px; height: 36px; stroke: rgba(255,255,255,0.35); transition: stroke 0.3s;
+    }
+    .flow-node.active .flow-node-icon svg { stroke: #00f07a; }
+
+    .flow-node-badge {
+      position: absolute; top: -6px; right: -6px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: #051f1f;
+    }
+
+    .flow-node-title {
+      font-size: 14px; font-weight: 700; margin-bottom: 4px; transition: color 0.3s;
+      color: rgba(255,255,255,0.6);
+    }
+    .flow-node.active .flow-node-title { color: #fff; }
+    .flow-node-sub {
+      font-size: 12px; color: rgba(255,255,255,0.3); max-width: 140px;
+      transition: color 0.3s;
+    }
+    .flow-node.active .flow-node-sub { color: rgba(255,255,255,0.5); }
+
+    .flow-arrow-connector {
+      display: flex; align-items: center; padding-top: 32px;
+      flex-shrink: 0; width: 48px; justify-content: center;
+    }
+    .flow-arrow-connector svg {
+      width: 22px; height: 22px; stroke: rgba(255,255,255,0.1);
+      transition: stroke 0.3s, transform 0.3s;
+    }
+
+    .flow-detail-card {
+      max-width: 900px; margin: 0 auto 48px;
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px; padding: 32px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;
+      transition: border-color 0.4s;
+    }
+    .flow-detail-card:hover { border-color: rgba(13,158,138,0.2); }
+
+    .flow-detail-content h3 {
+      font-size: 22px; font-weight: 800; margin-bottom: 12px; letter-spacing: -0.02em;
+      transition: color 0.3s;
+    }
+    .flow-detail-content p {
+      font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 16px;
+    }
+    .flow-detail-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; color: #00f07a;
+      background: rgba(0,240,122,0.06); border: 1px solid rgba(0,240,122,0.15);
+      padding: 8px 16px; border-radius: 100px;
+    }
+
+    .flow-detail-chat {
+      background: rgba(13,158,138,0.04); border: 1px solid rgba(13,158,138,0.12);
+      border-radius: 16px; padding: 20px;
+    }
+    .flow-detail-chat .chat-bubble {
+      padding: 12px 16px; border-radius: 14px; font-size: 13px; line-height: 1.5;
+      margin-bottom: 10px; max-width: 85%;
+    }
+    .flow-detail-chat .chat-bubble.customer {
+      background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.8);
+      margin-left: auto; border-bottom-right-radius: 4px;
+    }
+    .flow-detail-chat .chat-bubble.bot {
+      background: rgba(13,158,138,0.12); color: rgba(255,255,255,0.85);
+      border-bottom-left-radius: 4px;
+    }
+    .flow-detail-chat .chat-label {
+      font-size: 10px; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px;
+    }
+
+    .flow-stats-row {
+      display: flex; justify-content: center; gap: 48px;
+      padding: 32px; background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06); border-radius: 16px;
+      max-width: 700px; margin: 0 auto 40px;
+    }
+    .flow-stats-row .flow-stat { text-align: center; }
+    .flow-stat-number {
+      font-size: 32px; font-weight: 900;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      line-height: 1; margin-bottom: 4px;
+    }
+    .flow-stat-text { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .flow-cta { text-align: center; }
+    .flow-cta .btn-primary { font-size: 14px; padding: 14px 28px; }
+
+    @media (max-width: 900px) {
+      .flow-pipeline { flex-direction: column; align-items: center; gap: 0; }
+      .flow-arrow-connector { transform: rotate(90deg); padding: 8px 0; width: auto; }
+      .flow-node { flex-direction: row; text-align: left; gap: 16px; max-width: 320px; }
+      .flow-node-icon { width: 64px; height: 64px; margin: 0; flex-shrink: 0; }
+      .flow-node-icon svg { width: 28px; height: 28px; }
+      .flow-node-title, .flow-node-sub { max-width: none; }
+      .flow-detail-card { grid-template-columns: 1fr; }
+      .flow-stats-row { gap: 24px; padding: 24px; }
+      .flow-stat-number { font-size: 24px; }
+    }
+    @media (max-width: 600px) {
+      .flow-stats-row { flex-direction: column; gap: 20px; }
+    }
+
+    /* FEATURE TREE */
+    .feature-tree { 
+      padding: 100px 0 80px; 
+      background: linear-gradient(180deg, rgba(13,158,138,0.03) 0%, #051f1f 100%);
+      overflow: hidden;
+    }
+    .tree-header { text-align: center; margin-bottom: 56px; }
+    .tree-header .section-label { margin-bottom: 12px; }
+    .tree-header h2 { 
+      font-size: clamp(28px, 3.6vw, 42px); 
+      font-weight: 800; 
+      letter-spacing: -0.03em; 
+      margin-bottom: 12px;
+      line-height: 1.15;
+    }
+    .tree-header p { 
+      font-size: 16px; 
+      color: rgba(255,255,255,0.5); 
+      max-width: 540px; 
+      margin: 0 auto; 
+    }
+    .tree-stats {
+      display: flex; justify-content: center; gap: 48px; 
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .tree-stat { text-align: center; }
+    .tree-stat-num { 
+      font-size: 32px; font-weight: 900;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .tree-stat-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+    /* Tree Grid */
+    .tree-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    @media (max-width: 900px) { .tree-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .tree-grid { grid-template-columns: 1fr; } }
+
+    /* Branch Card */
+    .tree-branch {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    .tree-branch::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #0d9e8a, #00f07a);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .tree-branch:hover::before { opacity: 1; }
+    .tree-branch:hover {
+      border-color: rgba(13,158,138,0.3);
+      background: rgba(13,158,138,0.04);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(13,158,138,0.15);
+    }
+    .tree-branch.active {
+      border-color: rgba(13,158,138,0.4);
+      background: rgba(13,158,138,0.06);
+      grid-column: span 2;
+    }
+    @media (max-width: 600px) { .tree-branch.active { grid-column: span 1; } }
+    .tree-branch.active::before { opacity: 1; }
+
+    .branch-header {
+      padding: 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .branch-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: rgba(13,158,138,0.1);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.3s;
+    }
+    .tree-branch:hover .branch-icon { 
+      background: rgba(13,158,138,0.2);
+      transform: scale(1.05);
+    }
+    .branch-icon svg { width: 24px; height: 24px; stroke: #0d9e8a; }
+    .branch-info { flex: 1; }
+    .branch-name { font-size: 16px; font-weight: 700; margin-bottom: 2px; }
+    .branch-count { font-size: 12px; color: rgba(255,255,255,0.4); }
+    .branch-arrow {
+      width: 24px; height: 24px; 
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.3); transition: all 0.3s;
+    }
+    .tree-branch.active .branch-arrow { transform: rotate(180deg); color: #00f07a; }
+
+    /* Branch Content (expandable) */
+    .branch-content {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .tree-branch.active .branch-content { max-height: 600px; }
+
+    .branch-inner {
+      padding: 0 24px 24px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .branch-group { margin-top: 16px; }
+    .branch-group-name {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #0d9e8a; margin-bottom: 8px;
+    }
+    .branch-features {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .branch-feature {
+      font-size: 12px; color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 6px 12px; border-radius: 100px;
+      transition: all 0.2s;
+    }
+    .branch-feature:hover {
+      border-color: rgba(13,158,138,0.3);
+      color: rgba(255,255,255,0.8);
+      background: rgba(13,158,138,0.08);
+    }
+
+    /* Center connector line */
+    .tree-center {
+      text-align: center; margin: 48px 0 40px;
+      position: relative;
+    }
+    .tree-center::before {
+      content: '';
+      position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13,158,138,0.3), transparent);
+    }
+    .tree-center-btn {
+      position: relative; display: inline-flex; align-items: center; gap: 8px;
+      background: #051f1f; padding: 12px 28px; border-radius: 100px;
+      border: 1px solid rgba(13,158,138,0.3);
+      color: #0d9e8a; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s; font-family: inherit;
+    }
+    .tree-center-btn:hover {
+      background: rgba(13,158,138,0.1);
+      border-color: #0d9e8a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(13,158,138,0.25);
+    }
+
+    /* ========================================
+       PRICING REDESIGN
+       ======================================== */
+    .pricing { padding: 100px 0 80px; }
+
+    /* Tier Differentiation */
+    .tier-diff {
+      text-align: center; margin-bottom: 80px;
+    }
+    .tier-diff-label {
+      font-size: 13px; font-weight: 600; color: #0d9e8a;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .tier-diff-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 32px; flex-wrap: wrap;
+    }
+    .tier-item {
+      text-align: center; padding: 24px 32px;
+      border-radius: 16px; border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      min-width: 200px; transition: all 0.3s;
+    }
+    .tier-item:hover {
+      border-color: rgba(13,158,138,0.3);
+      transform: translateY(-2px);
+    }
+    .tier-item.free { border-color: rgba(0,240,122,0.2); }
+    .tier-item.free:hover { border-color: rgba(0,240,122,0.4); }
+    .tier-item.pro { border-color: rgba(13,158,138,0.3); background: rgba(13,158,138,0.05); }
+    .tier-item.pro:hover { border-color: rgba(13,158,138,0.5); }
+    .tier-item.biz { border-color: rgba(139,92,246,0.3); background: rgba(139,92,246,0.05); }
+    .tier-item.biz:hover { border-color: rgba(139,92,246,0.5); }
+    .tier-name {
+      font-size: 16px; font-weight: 700; margin-bottom: 8px;
+    }
+    .tier-item.free .tier-name { color: #00f07a; }
+    .tier-item.pro .tier-name { color: #0d9e8a; }
+    .tier-item.biz .tier-name { color: #a78bfa; }
+    .tier-limit {
+      font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 4px;
+    }
+    .tier-limit strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+    .tier-use {
+      font-size: 12px; color: rgba(255,255,255,0.4);
+      margin-top: 8px; font-style: italic;
+    }
+    .tier-arrow {
+      font-size: 24px; color: rgba(255,255,255,0.2);
+      display: none;
+    }
+    .tier-arrow.show { display: block; }
+
+    /* Pricing Cards */
+    .pricing-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; align-items: start;
+    }
+    .pricing-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px; padding: 32px;
+      position: relative; transition: all 0.3s;
+    }
+    .pricing-card:hover {
+      border-color: rgba(13,158,138,0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .pricing-card.popular {
+      border-color: #0d9e8a;
+      background: rgba(13,158,138,0.08);
+      transform: scale(1.02);
+    }
+    .pricing-card.popular:hover {
+      transform: scale(1.02) translateY(-4px);
+    }
+    .card-badge {
+      position: absolute; top: -12px; right: 20px;
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      color: #051f1f; font-size: 11px; font-weight: 700;
+      padding: 6px 16px; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .card-badge.biz-badge {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(139,92,246,0.4);
+    }
+    .card-plan {
+      font-size: 14px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 8px;
+    }
+    .pricing-card.free-card .card-plan { color: #00f07a; }
+    .pricing-card.popular .card-plan { color: #0d9e8a; }
+    .pricing-card.biz-card .card-plan { color: rgba(255,255,255,0.9); font-size: 15px; }
+    .pricing-card.biz-card {
+      border-color: rgba(139,92,246,0.3);
+      background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.05));
+      position: relative;
+    }
+    .pricing-card.biz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #8b5cf6, #3b82f6, #8b5cf6);
+    }
+    .pricing-card.biz-card:hover {
+      border-color: rgba(139,92,246,0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(139,92,246,0.2);
+    }
+    .pricing-card.biz-card .card-price {
+      font-size: 44px;
+      background: linear-gradient(135deg, #fff, #8b5cf6);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pricing-card.biz-card .card-price-day {
+      background: rgba(139,92,246,0.15);
+      color: #a78bfa;
+    }
+    .card-price {
+      font-size: 40px; font-weight: 800; color: #fff;
+      margin-bottom: 4px; line-height: 1;
+    }
+    .card-price span { font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.5); }
+    .card-price-day {
+      font-size: 13px; color: #0d9e8a; font-weight: 600;
+      margin-bottom: 16px; padding: 6px 12px;
+      background: rgba(13,158,138,0.1); border-radius: 8px;
+      display: inline-block;
+    }
+    .pricing-card.biz-card .card-price-day {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.7);
+    }
+    .card-social-proof {
+      font-size: 12px; color: rgba(255,255,255,0.4);
+      text-align: center; margin-top: 12px;
+      padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .card-desc {
+      font-size: 14px; color: rgba(255,255,255,0.5);
+      margin-bottom: 24px; line-height: 1.5;
+    }
+
+    /* Key Metrics */
+    .card-metrics {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .metric-pill {
+      font-size: 13px; font-weight: 600;
+      padding: 8px 16px; border-radius: 100px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.8);
+    }
+    .pricing-card.popular .metric-pill {
+      background: rgba(13,158,138,0.1);
+      border-color: rgba(13,158,138,0.3);
+      color: #0d9e8a;
+    }
+
+    /* Industries */
+    .card-industries {
+      margin-bottom: 24px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .card-industries-title {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.4);
+      margin-bottom: 12px;
+    }
+    .card-industries ul {
+      list-style: none; padding: 0; margin: 0;
+    }
+    .card-industries li {
+      font-size: 13px; color: rgba(255,255,255,0.6);
+      padding: 4px 0; display: flex; align-items: flex-start; gap: 8px;
+    }
+    .card-industries li::before {
+      content: '✅'; font-size: 12px; flex-shrink: 0;
+    }
+
+    /* Feature Categories */
+    .card-features { margin-bottom: 24px; }
+    .feature-category {
+      margin-bottom: 16px;
+    }
+    .feature-cat-name {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: rgba(255,255,255,0.4);
+      margin-bottom: 8px;
+    }
+    .feature-cat-items { list-style: none; padding: 0; margin: 0; }
+    .feature-cat-items li {
+      font-size: 13px; color: rgba(255,255,255,0.6);
+      padding: 5px 0; display: flex; align-items: flex-start; gap: 8px;
+    }
+    .feature-cat-items li .ck {
+      color: #00f07a; font-weight: 700; flex-shrink: 0;
+    }
+    .feature-plus {
+      font-size: 12px; color: #0d9e8a; font-weight: 600;
+      margin: 16px 0 12px; padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* CTA Buttons */
+    .card-cta {
+      display: block; width: 100%; padding: 14px 24px;
+      border-radius: 12px; font-size: 15px; font-weight: 600;
+      text-align: center; cursor: pointer; border: none;
+      font-family: inherit; transition: all 0.3s;
+      text-decoration: none;
+    }
+    .card-cta.green {
+      background: linear-gradient(135deg, #00f07a, #0d9e8a);
+      color: #051f1f;
+    }
+    .card-cta.green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,240,122,0.3);
+    }
+    .card-cta.teal {
+      background: linear-gradient(135deg, #0d9e8a, #0a7d6e);
+      color: #fff;
+    }
+    .card-cta.teal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(13,158,138,0.4);
+    }
+    .card-cta.dark {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: #fff;
+      border: none;
+    }
+    .card-cta.dark:hover {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(139,92,246,0.4);
+    }
+    .card-cta-secondary {
+      display: block; width: 100%; padding: 12px 24px;
+      border-radius: 12px; font-size: 13px; font-weight: 600;
+      text-align: center; cursor: pointer; border: none;
+      font-family: inherit; transition: all 0.3s; margin-top: 12px;
+      background: transparent; border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6); text-decoration: none;
+    }
+    .card-cta-secondary:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.9);
+    }
+    .card-note {
+      font-size: 12px; color: rgba(255,255,255,0.4);
+      text-align: center; margin-top: 12px;
+    }
+
+    /* Pricing FAQ */
+    .pricing-faq { padding: 80px 0; }
+    .pricing-faq .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .pricing-faq .faq-q {
+      width: 100%; text-align: left; padding: 20px 0;
+      background: none; border: none; cursor: pointer;
+      font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.9);
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: inherit;
+    }
+    .pricing-faq .faq-a {
+      padding: 0 0 20px; font-size: 14px; line-height: 1.7;
+      color: rgba(255,255,255,0.6); display: none;
+    }
+    .pricing-faq .faq-item.open .faq-a { display: block; }
+    .pricing-faq .plus {
+      font-size: 24px; font-weight: 300; color: rgba(255,255,255,0.3);
+      transition: transform 0.3s;
+    }
+    .pricing-faq .faq-item.open .plus { transform: rotate(45deg); }
+
+    /* Trust Signals */
+    .trust-signals {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 24px; padding: 40px 0 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .trust-signal {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .trust-signal .ck { color: #00f07a; font-weight: 700; }
+
+    /* Mobile Responsive */
+    @media (max-width: 1024px) {
+      .pricing-cards { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+      .pricing-card.popular { transform: none; }
+      .pricing-card.popular:hover { transform: translateY(-4px); }
+      .tier-diff-row { flex-direction: column; gap: 16px; }
+      .tier-arrow { display: none !important; }
+    }
+    @media (max-width: 768px) {
+      .tier-item { min-width: 100%; }
+      .pricing-card { padding: 24px; }
+      .card-price { font-size: 32px; }
+      .trust-signals { flex-direction: column; align-items: center; gap: 16px; }
+    }
+
+    /* ========================================
+       SEAMLESS SCROLL SPACING FIXES
+       ======================================== */
+    
+    /* Base section spacing - consistent rhythm */
+    section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    /* Hero - special handling */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 160px 0 100px;
+    }
+
+    /* Section transitions - smooth gradient blends */
+    .core-solution {
+      background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.02) 50%, #051f1f 100%);
+    }
+
+    .before-after {
+      background: #051f1f;
+    }
+
+    .live-demo {
+      background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.03) 50%, #051f1f 100%);
+    }
+
+    .features {
+      background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.04) 50%, #051f1f 100%);
+    }
+
+    .feature-tree {
+      background: #051f1f;
+    }
+
+    .usecases {
+      background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.02) 50%, #051f1f 100%);
+    }
+
+    .pricing {
+      background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.03) 50%, #051f1f 100%);
+    }
+
+    .pricing-faq {
+      background: #051f1f;
+    }
+
+    .cta {
+      background: linear-gradient(180deg, #051f1f 0%, rgba(13,158,138,0.06) 100%);
+      padding: 120px 0 140px;
+    }
+
+    /* Section dividers - subtle gradient lines */
+    .core-solution::before,
+    .live-demo::before,
+    .features::before,
+    .pricing::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13,158,138,0.2), transparent);
+    }
+
+    /* Section spacing adjustments */
+    .section-center {
+      margin-bottom: 64px;
+    }
+
+    .section-center .section-sub {
+      margin-bottom: 0;
+    }
+
+    /* ========================================
+       MOBILE RESPONSIVENESS FIXES
+       ======================================== */
+
+    @media (max-width: 1024px) {
+      section {
+        padding: 100px 0;
+      }
+
+      .hero {
+        padding: 140px 0 80px;
+        min-height: auto;
+      }
+
+      .section-center {
+        margin-bottom: 48px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      section {
+        padding: 80px 0;
+      }
+
+      .hero {
+        padding: 120px 0 60px;
+        min-height: auto;
+      }
+
+      .section-center {
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        font-size: clamp(24px, 5vw, 32px);
+      }
+
+      .section-sub {
+        font-size: 15px;
+      }
+
+      /* Hero specific mobile */
+      .hero h1 {
+        font-size: clamp(28px, 7vw, 40px);
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .hero-buttons .btn-primary,
+      .hero-buttons .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero-checks {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .hero-stats-row {
+        flex-direction: column;
+        gap: 24px;
+        text-align: center;
+      }
+
+      /* CTA mobile */
+      .cta {
+        padding: 80px 0 100px;
+      }
+
+      .cta h2 {
+        font-size: clamp(24px, 6vw, 32px);
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .cta-buttons a {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .cta-stats {
+        flex-direction: column;
+        gap: 32px;
+        text-align: center;
+      }
+
+      /* Footer mobile */
+      footer {
+        padding: 60px 0 0;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-tagline {
+        max-width: 100%;
+      }
+
+      .footer-socials {
+        justify-content: center;
+      }
+
+      .footer-col {
+        text-align: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-badges {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      section {
+        padding: 64px 0;
+      }
+
+      .hero {
+        padding: 100px 0 48px;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+
+      .pricing-card {
+        padding: 20px;
+      }
+
+      .card-metrics {
+        gap: 8px;
+      }
+
+      .metric-pill {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+    }
+
+    /* ========================================
+       MICRO-INTERACTIONS & SMOOTH SCROLL
+       ======================================== */
+
+    /* Smooth scroll for entire page */
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+
+    /* Button hover states */
+    .btn-primary,
+    .btn-secondary,
+    .card-cta,
+    .nav-cta {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Card hover lift effect */
+    .feature-card,
+    .pricing-card,
+    .usecase-card {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-color 0.3s ease;
+    }
+
+    /* Focus states for accessibility */
+    a:focus,
+    button:focus {
+      outline: 2px solid #0d9e8a;
+      outline-offset: 2px;
+    }
+
+    /* Reduced motion for accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* ========================================
+       VISUAL POLISH
+       ======================================== */
+
+    /* Subtle glow on active elements */
+    .card-cta:hover,
+    .btn-primary:hover {
+      box-shadow: 0 0 30px rgba(13, 158, 138, 0.3);
+    }
+
+    /* Gradient text consistency */
+    .hero h1 span,
+    .section-title span,
+    .logo,
+    .footer-logo {
+      background: linear-gradient(135deg, #0d9e8a, #00f07a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Pricing card purple glow */
+    .pricing-card.biz-card:hover {
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.2);
+    }
+
+    /* Feature tree branch animation */
+    .tree-branch {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* FAQ smooth expand */
+    .faq-item {
+      transition: border-color 0.3s ease;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(13, 158, 138, 0.3);
+    }
+
+    /* ========================================
+       COMPREHENSIVE MOBILE IMPROVEMENTS
+       ======================================== */
+
+    @media (max-width: 768px) {
+      /* Global spacing */
+      section {
+        padding: 80px 0;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      /* Hero mobile */
+      .hero {
+        padding: 120px 0 60px;
+        min-height: auto;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+        line-height: 1.15;
+        margin-bottom: 16px;
+      }
+
+      .hero p {
+        font-size: 15px;
+        margin-bottom: 24px;
+      }
+
+      .hero-badge {
+        margin-bottom: 20px;
+        font-size: 12px;
+        padding: 6px 14px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .hero-buttons .btn-primary,
+      .hero-buttons .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+      }
+
+      .hero-checks {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 24px;
+      }
+
+      .hero-check {
+        font-size: 12px;
+      }
+
+      .hero-stats-row {
+        flex-direction: row;
+        gap: 16px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .hero-stat-num {
+        font-size: 22px;
+      }
+
+      /* Dashboard mockup mobile */
+      .hero-right {
+        max-width: 100%;
+        margin-top: 32px;
+      }
+
+      .dash-mock {
+        border-radius: 12px;
+      }
+
+      .dash-body {
+        min-height: 240px;
+      }
+
+      /* Section headers mobile */
+      .section-center {
+        margin-bottom: 40px;
+      }
+
+      .section-title {
+        font-size: 26px;
+        line-height: 1.2;
+      }
+
+      .section-sub {
+        font-size: 14px;
+        margin-top: 12px;
+      }
+
+      .section-label {
+        font-size: 11px;
+        padding: 5px 12px;
+      }
+
+      /* Features mobile */
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+
+      .feature-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 14px;
+      }
+
+      .feature-card h3 {
+        font-size: 16px;
+        margin-bottom: 6px;
+      }
+
+      .feature-card p {
+        font-size: 13px;
+      }
+
+      /* Use cases mobile */
+      .usecases-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .usecase-card {
+        padding: 20px 16px;
+      }
+
+      .usecase-icon {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 12px;
+      }
+
+      .usecase-card h4 {
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+
+      .usecase-card p {
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      /* Pricing mobile */
+      .tier-diff {
+        margin-bottom: 48px;
+      }
+
+      .tier-diff-label {
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+
+      .tier-item {
+        padding: 20px;
+        min-width: 100%;
+      }
+
+      .tier-name {
+        font-size: 14px;
+      }
+
+      .tier-limit {
+        font-size: 13px;
+      }
+
+      .tier-use {
+        font-size: 11px;
+      }
+
+      .pricing-cards {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .pricing-card {
+        padding: 24px;
+        border-radius: 16px;
+      }
+
+      .pricing-card.popular {
+        transform: none;
+      }
+
+      .card-plan {
+        font-size: 12px;
+        margin-bottom: 6px;
+      }
+
+      .card-price {
+        font-size: 36px;
+      }
+
+      .card-price span {
+        font-size: 14px;
+      }
+
+      .card-desc {
+        font-size: 13px;
+        margin-bottom: 20px;
+      }
+
+      .card-metrics {
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .metric-pill {
+        font-size: 11px;
+        padding: 6px 12px;
+      }
+
+      .feature-cat-name {
+        font-size: 10px;
+      }
+
+      .feature-cat-items li {
+        font-size: 12px;
+        padding: 4px 0;
+      }
+
+      .card-cta {
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+
+      /* FAQ mobile */
+      .pricing-faq {
+        padding: 64px 0;
+      }
+
+      .faq-q {
+        font-size: 14px;
+        padding: 16px 0;
+      }
+
+      .faq-a {
+        font-size: 13px;
+      }
+
+      .trust-signals {
+        gap: 16px;
+        padding: 32px 0 0;
+      }
+
+      .trust-signal {
+        font-size: 12px;
+      }
+
+      /* CTA mobile */
+      .cta {
+        padding: 80px 0 100px;
+      }
+
+      .cta h2 {
+        font-size: 26px;
+        margin-bottom: 12px;
+      }
+
+      .cta p {
+        font-size: 14px;
+        margin-bottom: 28px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .cta-buttons a {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .cta-stats {
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .cta-stat-num {
+        font-size: 24px;
+      }
+
+      /* Footer mobile */
+      footer {
+        padding: 60px 0 0;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+      }
+
+      .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-logo {
+        font-size: 28px;
+      }
+
+      .footer-tagline {
+        max-width: 100%;
+        font-size: 14px;
+      }
+
+      .footer-socials {
+        justify-content: center;
+      }
+
+      .footer-col h4 {
+        margin-bottom: 16px;
+      }
+
+      .footer-col ul {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 20px 0;
+      }
+
+      .footer-copy {
+        font-size: 12px;
+        line-height: 1.8;
+      }
+
+      .footer-badges {
+        justify-content: center;
+      }
+
+      .footer-badge {
+        font-size: 10px;
+        padding: 5px 12px;
+      }
+
+      /* Feature tree mobile */
+      .tree-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .branch-header {
+        padding: 16px;
+      }
+
+      .branch-name {
+        font-size: 14px;
+      }
+
+      .branch-count {
+        font-size: 12px;
+      }
+
+      .branch-inner {
+        padding: 0 16px 16px;
+      }
+
+      .branch-feature {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+
+      /* Popup mobile */
+      .popup-card {
+        padding: 28px 20px;
+        margin: 16px;
+        border-radius: 16px;
+      }
+
+      .popup-card h3 {
+        font-size: 20px;
+      }
+
+      .popup-card p {
+        font-size: 13px;
+      }
+
+      .popup-features li {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      /* Extra small screens */
+      section {
+        padding: 64px 0;
+      }
+
+      .hero {
+        padding: 100px 0 48px;
+      }
+
+      .container {
+        padding: 0 16px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+
+      .usecases-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-cards {
+        max-width: 100%;
+      }
+
+      .cta-stats {
+        flex-direction: column;
+        gap: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -732,11 +2672,12 @@
         <span></span><span></span><span></span>
       </button>
       <div class="nav-links" id="navLinks">
+        <a href="#solution">How It Works</a>
         <a href="#demo">Demo</a>
         <a href="#features">Features</a>
         <a href="#before-after">Results</a>
         <a href="#pricing">Pricing</a>
-        <a href="https://dashboard.wtflo.com" target="_blank" class="nav-cta">Get Started</a>
+        <a href="https://app.wtflo.com/auth/register" target="_blank" class="nav-cta">Get Started</a>
       </div>
     </div>
   </nav>
@@ -748,20 +2689,20 @@
       <div class="hero-left">
         <div class="hero-badge hero-fade">Official Meta WhatsApp Business API Partner</div>
         <h1 class="hero-fade">Turn every WhatsApp message into a <span>paying customer</span></h1>
-        <p class="hero-fade">Automate your WhatsApp conversations, send bulk messages, and never miss a lead again. Built for Indian service businesses — clinics, salons, restaurants, and more.</p>
+        <p class="hero-fade">Automate WhatsApp conversations, send bulk messages, never miss a lead. Built for Indian service businesses.</p>
         <div class="hero-buttons hero-fade">
-          <a href="https://dashboard.wtflo.com" target="_blank" class="btn-primary">Start Free Trial</a>
-          <a href="#onboard" class="btn-secondary">See How It Works</a>
+          <a href="https://app.wtflo.com/auth/register" target="_blank" class="btn-primary">Start Free Trial</a>
+          <a href="https://wa.me/918796965200?text=Hi%2C%20I%27d%20like%20to%20try%20the%20demo" target="_blank" class="btn-secondary">Try Our WhatsApp Bot Now</a>
         </div>
         <div class="hero-checks hero-fade">
           <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Free Green Tick Verification</span>
           <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> &#8377;2,500/Month — Unlimited</span>
-          <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> 23,000+ Indian Businesses</span>
+          <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Made in India</span>
         </div>
         <div class="hero-stats-row hero-fade">
-          <div><div class="hero-stat-num">23,000+</div><div class="hero-stat-label">Indian businesses</div></div>
           <div><div class="hero-stat-num">25M+</div><div class="hero-stat-label">Messages processed</div></div>
           <div><div class="hero-stat-num">2min</div><div class="hero-stat-label">Avg. response time</div></div>
+          <div><div class="hero-stat-num">100%</div><div class="hero-stat-label">WhatsApp API</div></div>
         </div>
       </div>
       <div class="hero-right hero-fade">
@@ -809,29 +2750,162 @@
     </div>
   </section>
 
-  <!-- ONBOARD -->
-  <section class="how-it-works" id="onboard">
+  <!-- CORE SOLUTION - Interactive Pipeline -->
+  <section class="core-solution" id="solution">
+    <div class="container">
+      <div class="section-center reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          How It Works
+        </div>
+        <h2 class="section-title">Your entire booking machine — <span>on autopilot</span></h2>
+        <p class="section-sub">From first message to confirmed payment — every step runs itself.</p>
+      </div>
+
+      <div class="flow-pipeline" id="flowPipeline">
+
+        <div class="flow-node active" data-step="0">
+          <div class="flow-node-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            <span class="flow-node-badge">1</span>
+          </div>
+          <div class="flow-node-title">Customer Messages You</div>
+          <div class="flow-node-sub">A lead sends "Hi" on WhatsApp</div>
+        </div>
+
+        <div class="flow-arrow-connector">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="flow-node" data-step="1">
+          <div class="flow-node-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            <span class="flow-node-badge">2</span>
+          </div>
+          <div class="flow-node-title">Bot Qualifies Them</div>
+          <div class="flow-node-sub">AI asks the right questions</div>
+        </div>
+
+        <div class="flow-arrow-connector">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="flow-node" data-step="2">
+          <div class="flow-node-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+            <span class="flow-node-badge">3</span>
+          </div>
+          <div class="flow-node-title">Calendar Books Itself</div>
+          <div class="flow-node-sub">Zero back-and-forth</div>
+        </div>
+
+        <div class="flow-arrow-connector">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="flow-node" data-step="3">
+          <div class="flow-node-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <span class="flow-node-badge">4</span>
+          </div>
+          <div class="flow-node-title">They Pay Right There</div>
+          <div class="flow-node-sub">Razorpay inside WhatsApp</div>
+        </div>
+
+        <div class="flow-arrow-connector">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <div class="flow-node" data-step="4">
+          <div class="flow-node-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <span class="flow-node-badge">5</span>
+          </div>
+          <div class="flow-node-title">Follow-Up Sent</div>
+          <div class="flow-node-sub">Never forget to follow up</div>
+        </div>
+      </div>
+
+      <div class="flow-detail-card" id="flowDetailCard">
+        <div class="flow-detail-content">
+          <h3 id="detailTitle">Customer Messages You</h3>
+          <p id="detailDesc">It starts with a simple WhatsApp message. A potential customer sees your ad, visits your profile, or gets a referral — and sends "Hi, I'd like to book." No app downloads. No form fills. Just one message.</p>
+          <div class="flow-detail-tag">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="detailTag">98% of Indians prefer WhatsApp over email</span>
+          </div>
+        </div>
+        <div class="flow-detail-chat" id="detailChat">
+          <div class="chat-label">Customer</div>
+          <div class="chat-bubble customer">Hi, I'd like to book an appointment</div>
+          <div class="chat-label" style="margin-top:12px">Wtflo Bot</div>
+          <div class="chat-bubble bot">Hey! We'd love to have you. What service are you looking for?</div>
+        </div>
+      </div>
+
+      <div class="flow-stats-row reveal">
+        <div class="flow-stat">
+          <div class="flow-stat-number">0 min</div>
+          <div class="flow-stat-text">Manual response time</div>
+        </div>
+        <div class="flow-stat">
+          <div class="flow-stat-number">60%</div>
+          <div class="flow-stat-text">Fewer no-shows</div>
+        </div>
+        <div class="flow-stat">
+          <div class="flow-stat-number">100%</div>
+          <div class="flow-stat-text">Payments collected upfront</div>
+        </div>
+      </div>
+
+      <div class="flow-cta reveal">
+        <a href="https://app.wtflo.com/auth/register" target="_blank" class="btn-primary">Start Automating Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BEFORE VS AFTER -->
+  <section class="before-after" id="before-after">
     <div class="container">
       <div class="reveal section-center">
-        <div class="section-label">Get Started</div>
-        <h2 class="section-title">Go live in under 10 minutes</h2>
-        <p class="section-sub">No technical skills needed. Our team helps you set up everything from day one.</p>
+        <div class="section-label">The Difference</div>
+        <h2 class="section-title">What changes when you switch to Wtflo</h2>
+        <p class="section-sub">This is what automation actually looks like.</p>
       </div>
-      <div class="steps-grid">
-        <div class="step-card reveal">
-          <div class="step-num">1</div>
-          <h3>Create your account</h3>
-          <p>Sign up in 2 minutes. No credit card needed. Get instant access to your dashboard.</p>
+      <div class="ba-grid">
+        <div class="ba-card before reveal">
+          <div class="ba-label">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(224,58,58,0.3)"/><path d="M5 5l6 6M11 5l-6 6" stroke="#e03a3a" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Before Wtflo
+          </div>
+          <ul class="ba-list">
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Staff manually copying and pasting replies all day</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Customers waiting 4+ hours for a response</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Missing leads because messages get lost</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> No way to track who messaged or what they said</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Paying per message, costs keep adding up</li>
+          </ul>
+          <div class="ba-stat">
+            <span class="ba-stat-num">35%</span>
+            <span class="ba-stat-label">Average customer response rate</span>
+          </div>
         </div>
-        <div class="step-card reveal">
-          <div class="step-num">2</div>
-          <h3>Connect your channels</h3>
-          <p>Link your WhatsApp Business number, Facebook page, and Instagram. We handle the API setup and green tick.</p>
-        </div>
-        <div class="step-card reveal">
-          <div class="step-num">3</div>
-          <h3>Start growing</h3>
-          <p>Import contacts, build your first chatbot, send your first broadcast. Our support team is with you every step.</p>
+        <div class="ba-card after reveal">
+          <div class="ba-label">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(0,240,122,0.3)"/><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            After Wtflo
+          </div>
+          <ul class="ba-list">
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Bot handles 90% of common questions instantly</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Customers get replies in under 2 minutes</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Every lead captured and followed up automatically</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Full conversation history, tags, and analytics</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Fixed &#8377;2,500/month — unlimited messages</li>
+          </ul>
+          <div class="ba-stat">
+            <span class="ba-stat-num">94%</span>
+            <span class="ba-stat-label">Average customer response rate</span>
+          </div>
         </div>
       </div>
     </div>
@@ -850,7 +2924,7 @@
             <li><span class="demo-step-num">2</span> <span>Send any message — try "Book an appointment" or "What are your prices?"</span></li>
             <li><span class="demo-step-num">3</span> <span>Watch the bot respond instantly with real conversations</span></li>
           </ol>
-          <a href="https://wa.me/918069871810?text=Hi%20I%27d%20like%20to%20see%20a%20demo" target="_blank" class="btn-primary">
+          <a href="https://wa.me/918796965200?text=Hi%20I%27d%20like%20to%20see%20a%20demo" target="_blank" class="btn-primary">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Try Our WhatsApp Bot Now
           </a>
@@ -895,202 +2969,718 @@
     <div class="container">
       <div class="reveal section-center">
         <div class="section-label">What You Can Build</div>
-        <h2 class="section-title">One platform. Every conversation.</h2>
-        <p class="section-sub">Stop stitching together 5 different tools. Wtflo replaces your chatbot, CRM, payment gateway, and support desk.</p>
+        <h2 class="section-title">Your WhatsApp receptionist. That never sleeps.</h2>
+        <p class="section-sub">One bot handles bookings, reminders, and follow-ups. Your staff stops answering the same 10 questions.</p>
       </div>
 
-      <!-- OUTCOME CARDS -->
       <div class="features-grid">
         <div class="feature-card reveal">
           <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
           <h3>Booking & Appointment Bot</h3>
-          <p>Customer messages you → bot shows available slots → confirms booking → sends reminder → handles reschedule. Zero manual work.</p>
+          <p>Customer says "I want to book" → bot shows open slots → confirms → sends details. Works 24/7.</p>
         </div>
         <div class="feature-card reveal">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
-          <h3>Order & Payment Bot</h3>
-          <p>Customer browses your catalog → adds to cart → pays via Razorpay inside WhatsApp → gets confirmation → tracks delivery. Full store in a chat.</p>
+          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+          <h3>Smart Reminders</h3>
+          <p>24hr and 1hr before reminders. Post-visit follow-ups. Review requests. Rebooking. All automatic.</p>
         </div>
         <div class="feature-card reveal">
           <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-9z"/></svg></div>
-          <h3>Lead Capture & Qualification</h3>
-          <p>Ad clicks → bot asks right questions → saves answers to CRM → assigns hot leads to your sales team. No lead slips through.</p>
+          <h3>Lead Capture</h3>
+          <p>Ad click → WhatsApp → bot asks right questions → saves to CRM → alerts your team. 30 seconds flat.</p>
         </div>
         <div class="feature-card reveal">
           <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
           <h3>AI Customer Support</h3>
-          <p>Powered by ChatGPT. Understands what customers actually mean, not just keywords. Answers 90% of questions. Escalates to human when needed.</p>
+          <p>ChatGPT-powered. Understands actual questions, not just keywords. Handles 90%. Escalates when needed.</p>
         </div>
         <div class="feature-card reveal">
-          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
-          <h3>Abandoned Cart Recovery</h3>
-          <p>Shopify integration detects abandoned carts → auto WhatsApp message → "You left something behind" → brings customer back → completes sale.</p>
+          <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <h3>Multi-Staff Scheduling</h3>
+          <p>Each staff gets their own calendar. Customers pick their preferred person. No double-bookings.</p>
         </div>
         <div class="feature-card reveal">
           <div class="feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-9z"/></svg></div>
-          <h3>Bulk Broadcasts & Campaigns</h3>
-          <p>Send personalized messages to thousands. Segment by tags, past purchases, or behavior. Track who opened, clicked, and converted.</p>
-        </div>
-      </div>
-
-      <!-- UNDER THE HOOD -->
-      <div class="reveal" style="margin-top:64px;">
-        <div class="section-center" style="margin-bottom:32px;">
-          <h2 class="section-title" style="font-size:clamp(22px,2.8vw,30px);">Everything under the hood</h2>
-          <p class="section-sub" style="margin:8px auto 0;">The powerful stuff that makes it all work. You don't need to understand it — just know it's there.</p>
-        </div>
-        <div class="under-hood-grid">
-          <div class="under-hood-item reveal">
-            <div class="uh-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            </div>
-            <div>
-              <div class="uh-title">Visual Bot Builder</div>
-              <div class="uh-desc">Drag and drop. No code. Build any flow in minutes.</div>
-            </div>
-          </div>
-          <div class="under-hood-item reveal">
-            <div class="uh-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
-            </div>
-            <div>
-              <div class="uh-title">Multi-Channel Inbox</div>
-              <div class="uh-desc">WhatsApp + Instagram + Facebook. All messages, one place.</div>
-            </div>
-          </div>
-          <div class="under-hood-item reveal">
-            <div class="uh-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-            </div>
-            <div>
-              <div class="uh-title">Smart CRM</div>
-              <div class="uh-desc">Tags, segments, custom fields. Know every customer by name.</div>
-            </div>
-          </div>
-          <div class="under-hood-item reveal">
-            <div class="uh-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-            </div>
-            <div>
-              <div class="uh-title">Analytics Dashboard</div>
-              <div class="uh-desc">Delivery rates, response times, conversions. See what's working.</div>
-            </div>
-          </div>
-          <div class="under-hood-item reveal">
-            <div class="uh-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </div>
-            <div>
-              <div class="uh-title">1000+ App Integrations</div>
-              <div class="uh-desc">Shopify, Razorpay, Zoho, Google Sheets, Zapier. Connect everything.</div>
-            </div>
-          </div>
-          <div class="under-hood-item reveal">
-            <div class="uh-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            </div>
-            <div>
-              <div class="uh-title">Enterprise Security</div>
-              <div class="uh-desc">Bank-grade encryption. Indian servers. ISO 27001 certified.</div>
-            </div>
-          </div>
+          <h3>Bulk Broadcasts</h3>
+          <p>"Membership expires in 3 days" to 500 customers. Personalized. Tracked. WhatsApp, not spam.</p>
         </div>
       </div>
 
       <!-- INTEGRATIONS -->
       <div class="reveal" style="margin-top:64px;">
-        <div class="section-center" style="margin-bottom:32px;">
-          <h2 class="section-title" style="font-size:clamp(22px,2.8vw,30px);">Connects to tools you already use</h2>
+        <div class="section-center" style="margin-bottom:40px;">
+          <div class="section-label">Integrations</div>
+          <h2 class="section-title" style="font-size:clamp(22px,2.8vw,30px);">Plugs into what you already use</h2>
+          <p class="section-sub" style="margin:8px auto 0;">No migration. No learning curve. Just connect and go.</p>
         </div>
         <div class="integrations-row">
           <div class="integration-logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-            <span>Shopify</span>
-          </div>
-          <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             <span>Razorpay</span>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Collect payments inside WhatsApp. No separate links.</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
             <span>OpenAI / ChatGPT</span>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Powers your AI bot. Understands what customers actually mean.</p>
+          </div>
+          <div class="integration-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Google Calendar</span>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Bookings sync to staff calendars. No double-bookings.</p>
+          </div>
+          <div class="integration-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            <span>Facebook & Instagram</span>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Ad clicks and DMs land straight in your WhatsApp bot.</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-            <span>Zoho Books</span>
+            <span>Google Sheets</span>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Export leads and data to sheets. Built-in reporting.</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             <span>Zapier</span>
-          </div>
-          <div class="integration-logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-            <span>Facebook</span>
-          </div>
-          <div class="integration-logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            <span>Instagram</span>
-          </div>
-          <div class="integration-logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            <span>Google Sheets</span>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Connect to 5000+ apps. CRM, sheets, invoicing — all linked.</p>
           </div>
         </div>
       </div>
 
     </div>
   </section>
+
+  <!-- FEATURE TREE -->
+  <section class="feature-tree" id="feature-tree">
+    <div class="container">
+      <div class="tree-header reveal">
+        <div class="section-label">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          Everything Inside
+        </div>
+        <h2>8 pillars. <span>140+ features.</span> One platform.</h2>
+        <p>From the first message to the final payment — every tool your service business needs to run on WhatsApp.</p>
+        <div class="tree-stats">
+          <div class="tree-stat">
+            <div class="tree-stat-num">8</div>
+            <div class="tree-stat-label">Core Pillars</div>
+          </div>
+          <div class="tree-stat">
+            <div class="tree-stat-num">140+</div>
+            <div class="tree-stat-label">Features</div>
+          </div>
+          <div class="tree-stat">
+            <div class="tree-stat-num">1</div>
+            <div class="tree-stat-label">Dashboard</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tree-grid" id="treeGrid">
+
+        <!-- Branch 1: WhatsApp Chat -->
+        <div class="tree-branch reveal" data-branch="whatsapp">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">WhatsApp Chat</div>
+              <div class="branch-count">14 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Unified Inbox</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Real-time messaging</span>
+                  <span class="branch-feature">Media sharing</span>
+                  <span class="branch-feature">Chat assignment</span>
+                  <span class="branch-feature">Chat status tracking</span>
+                  <span class="branch-feature">Internal notes</span>
+                  <span class="branch-feature">Contact profiles</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Connections</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Meta Business API</span>
+                  <span class="branch-feature">Multi-number support</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Multi-Channel</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Facebook Messenger</span>
+                  <span class="branch-feature">Instagram DMs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 2: Booking & Appointments -->
+        <div class="tree-branch reveal" data-branch="booking">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">Booking & Appointments</div>
+              <div class="branch-count">12 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Appointment Bot</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Real-time slot availability</span>
+                  <span class="branch-feature">Auto-confirmation</span>
+                  <span class="branch-feature">WhatsApp booking</span>
+                  <span class="branch-feature">Reschedule handling</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Smart Reminders</div>
+                <div class="branch-features">
+                  <span class="branch-feature">24hr reminder</span>
+                  <span class="branch-feature">1hr reminder</span>
+                  <span class="branch-feature">Post-visit follow-up</span>
+                  <span class="branch-feature">Review requests</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Multi-Staff</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Per-staff calendar</span>
+                  <span class="branch-feature">Customer picks staff</span>
+                  <span class="branch-feature">No double-booking</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 3: AI & Automation -->
+        <div class="tree-branch reveal" data-branch="ai">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">AI & Automation</div>
+              <div class="branch-count">18 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Visual Bot Builder</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Drag-and-drop editor</span>
+                  <span class="branch-feature">15+ node types</span>
+                  <span class="branch-feature">Condition logic</span>
+                  <span class="branch-feature">API calls</span>
+                  <span class="branch-feature">Test & preview</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">AI Models</div>
+                <div class="branch-features">
+                  <span class="branch-feature">OpenAI GPT-4</span>
+                  <span class="branch-feature">Claude</span>
+                  <span class="branch-feature">Gemini</span>
+                  <span class="branch-feature">Groq</span>
+                  <span class="branch-feature">DeepSeek</span>
+                  <span class="branch-feature">Custom models</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">AI Voice</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Custom AI agents</span>
+                  <span class="branch-feature">Auto-dial</span>
+                  <span class="branch-feature">Call transcription</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 4: CRM & Contacts -->
+        <div class="tree-branch reveal" data-branch="crm">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">CRM & Contacts</div>
+              <div class="branch-count">12 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Contact Management</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Contact directory</span>
+                  <span class="branch-feature">Custom fields</span>
+                  <span class="branch-feature">Contact stats</span>
+                  <span class="branch-feature">Kanban pipeline</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Organization</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Tags</span>
+                  <span class="branch-feature">Segments</span>
+                  <span class="branch-feature">Tag analytics</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Import & Export</div>
+                <div class="branch-features">
+                  <span class="branch-feature">CSV import</span>
+                  <span class="branch-feature">Async export</span>
+                  <span class="branch-feature">Job logs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 5: Campaigns & Broadcasts -->
+        <div class="tree-branch reveal" data-branch="campaigns">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-9z"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">Campaigns & Broadcasts</div>
+              <div class="branch-count">14 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Bulk Broadcasting</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Send to thousands</span>
+                  <span class="branch-feature">Media support</span>
+                  <span class="branch-feature">Segment targeting</span>
+                  <span class="branch-feature">Schedule later</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Drip Campaigns</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Time-sequenced</span>
+                  <span class="branch-feature">Pause/resume</span>
+                  <span class="branch-feature">Audience preview</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Facebook Ads</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Click-to-WhatsApp</span>
+                  <span class="branch-feature">Campaign hierarchy</span>
+                  <span class="branch-feature">Ad insights</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 6: Payments & Billing -->
+        <div class="tree-branch reveal" data-branch="payments">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">Payments & Billing</div>
+              <div class="branch-count">12 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Customer Payments</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Razorpay</span>
+                  <span class="branch-feature">Stripe</span>
+                  <span class="branch-feature">PayPal</span>
+                  <span class="branch-feature">Payment links</span>
+                  <span class="branch-feature">Transaction history</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Subscriptions</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Plan management</span>
+                  <span class="branch-feature">Auto-renewal</span>
+                  <span class="branch-feature">Invoice downloads</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Wallet</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Prepaid balance</span>
+                  <span class="branch-feature">Top-up</span>
+                  <span class="branch-feature">Per-conversation billing</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 7: Growth & Lead Capture -->
+        <div class="tree-branch reveal" data-branch="growth">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">Growth & Lead Capture</div>
+              <div class="branch-count">10 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Facebook Leads</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Lead Ad connection</span>
+                  <span class="branch-feature">Auto-capture to CRM</span>
+                  <span class="branch-feature">Field mapping</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Lead Forms</div>
+                <div class="branch-features">
+                  <span class="branch-feature">WhatsApp form builder</span>
+                  <span class="branch-feature">Meta Flow integration</span>
+                  <span class="branch-feature">Kanban submissions</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Landing Pages</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Page builder</span>
+                  <span class="branch-feature">Chat widget</span>
+                  <span class="branch-feature">Short links</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Branch 8: Team & Admin -->
+        <div class="tree-branch reveal" data-branch="team">
+          <div class="branch-header">
+            <div class="branch-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="branch-info">
+              <div class="branch-name">Team & Admin</div>
+              <div class="branch-count">16 features</div>
+            </div>
+            <div class="branch-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="branch-content">
+            <div class="branch-inner">
+              <div class="branch-group">
+                <div class="branch-group-name">Agent Management</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Create agents</span>
+                  <span class="branch-feature">Assign conversations</span>
+                  <span class="branch-feature">Task board</span>
+                  <span class="branch-feature">Task comments</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Teams & Roles</div>
+                <div class="branch-features">
+                  <span class="branch-feature">Custom roles</span>
+                  <span class="branch-feature">Granular permissions</span>
+                  <span class="branch-feature">Plan-based access</span>
+                </div>
+              </div>
+              <div class="branch-group">
+                <div class="branch-group-name">Admin Panel</div>
+                <div class="branch-features">
+                  <span class="branch-feature">User management</span>
+                  <span class="branch-feature">Plan management</span>
+                  <span class="branch-feature">CMS pages</span>
+                  <span class="branch-feature">AI model config</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tree-center reveal">
+        <button class="tree-center-btn" onclick="window.open('https://app.wtflo.com/auth/register','_blank')">
+          Explore All 140+ Features
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <!-- Tier Differentiation -->
+      <div class="tier-diff reveal">
+        <div class="tier-diff-label">Which plan fits your business?</div>
+        <div class="tier-diff-row">
+          <div class="tier-item free">
+            <div class="tier-name">FREE</div>
+            <div class="tier-limit"><strong>10</strong> Bookings/month</div>
+            <div class="tier-use">Test the full platform</div>
+          </div>
+          <div class="tier-arrow show">→</div>
+          <div class="tier-item pro">
+            <div class="tier-name">PROFESSIONAL</div>
+            <div class="tier-limit"><strong>1,000</strong> Bookings/month</div>
+            <div class="tier-use">Growing salons, clinics & institutes</div>
+          </div>
+          <div class="tier-arrow show">→</div>
+          <div class="tier-item biz">
+            <div class="tier-name">BUSINESS</div>
+            <div class="tier-limit"><strong>Unlimited</strong> Bookings</div>
+            <div class="tier-use">Multi-location enterprises</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="pricing-cards reveal">
+        <!-- FREE Card -->
+        <div class="pricing-card free-card">
+          <div class="card-plan">FREE</div>
+          <div class="card-price">₹0 <span>/ month</span></div>
+          <div class="card-desc">Perfect to test drive Wtflo with everything included. Get up to 10 bookings per month to experience the full platform. No credit card needed.</div>
+
+          <div class="card-metrics">
+            <div class="metric-pill">10 Contacts</div>
+            <div class="metric-pill">10 Bookings</div>
+            <div class="metric-pill">1 Agent</div>
+          </div>
+
+          <div class="card-features">
+            <div class="feature-category">
+              <div class="feature-cat-name">Usage Limits</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> 10 Contacts</li>
+                <li><span class="ck">✓</span> 1 Agent</li>
+                <li><span class="ck">✓</span> 1 Team</li>
+                <li><span class="ck">✓</span> 10 Appointment Bookings</li>
+              </ul>
+            </div>
+            <div class="feature-category">
+              <div class="feature-cat-name">Unlimited</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Template Bots</li>
+                <li><span class="ck">✓</span> Message Bots</li>
+                <li><span class="ck">✓</span> Campaigns</li>
+                <li><span class="ck">✓</span> AI Prompts</li>
+                <li><span class="ck">✓</span> Conversations</li>
+                <li><span class="ck">✓</span> Bot Flow</li>
+                <li><span class="ck">✓</span> Custom Fields</li>
+                <li><span class="ck">✓</span> Tags</li>
+                <li><span class="ck">✓</span> WhatsApp Forms</li>
+                <li><span class="ck">✓</span> AI Calling Agent</li>
+                <li><span class="ck">✓</span> Facebook Ads Campaign</li>
+                <li><span class="ck">✓</span> Kanban Funnels</li>
+                <li><span class="ck">✓</span> Segments</li>
+              </ul>
+            </div>
+            <div class="feature-category">
+              <div class="feature-cat-name">Features</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Rest API</li>
+                <li><span class="ck">✓</span> WhatsApp Webhook</li>
+                <li><span class="ck">✓</span> Auto Replies</li>
+                <li><span class="ck">✓</span> Analytics</li>
+              </ul>
+            </div>
+          </div>
+
+          <a href="https://app.wtflo.com/auth/register" target="_blank" class="card-cta green">→ Start Free — No Card Required</a>
+          <div class="card-note">Free forever. Upgrade when you're ready.</div>
+        </div>
+
+        <!-- PROFESSIONAL Card -->
+        <div class="pricing-card popular">
+          <div class="card-badge">★ Most Popular</div>
+          <div class="card-plan">PROFESSIONAL</div>
+          <div class="card-price">₹2,500 <span>/ month</span></div>
+          <div class="card-price-day">That's just ₹83/day</div>
+          <div class="card-desc">For growing service businesses. Perfect for salons, clinics, coaching institutes. Scale up to 1,000 bookings per month, 5,000 customers, and manage multiple locations.</div>
+
+          <div class="card-metrics">
+            <div class="metric-pill">1,000 Contacts</div>
+            <div class="metric-pill">1,000 Bookings</div>
+            <div class="metric-pill">3 Teams</div>
+          </div>
+
+          <div class="card-features">
+            <div class="feature-category">
+              <div class="feature-cat-name">Usage Limits</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> 1,000 Contacts</li>
+                <li><span class="ck">✓</span> 1 Agent</li>
+                <li><span class="ck">✓</span> 3 Teams</li>
+                <li><span class="ck">✓</span> 1,000 Appointment Bookings</li>
+              </ul>
+            </div>
+            <div class="feature-category">
+              <div class="feature-cat-name">Unlimited</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Template Bots</li>
+                <li><span class="ck">✓</span> Message Bots</li>
+                <li><span class="ck">✓</span> Campaigns</li>
+                <li><span class="ck">✓</span> AI Prompts</li>
+                <li><span class="ck">✓</span> Conversations</li>
+                <li><span class="ck">✓</span> Bot Flow</li>
+                <li><span class="ck">✓</span> Custom Fields</li>
+                <li><span class="ck">✓</span> Tags</li>
+                <li><span class="ck">✓</span> WhatsApp Forms</li>
+                <li><span class="ck">✓</span> AI Calling Agent</li>
+                <li><span class="ck">✓</span> Facebook Ads Campaign</li>
+                <li><span class="ck">✓</span> Kanban Funnels</li>
+                <li><span class="ck">✓</span> Segments</li>
+              </ul>
+            </div>
+            <div class="feature-category">
+              <div class="feature-cat-name">Features</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Rest API</li>
+                <li><span class="ck">✓</span> WhatsApp Webhook</li>
+                <li><span class="ck">✓</span> Auto Replies</li>
+                <li><span class="ck">✓</span> Analytics</li>
+              </ul>
+            </div>
+          </div>
+
+          <a href="https://app.wtflo.com/auth/register" target="_blank" class="card-cta teal">→ Start 7-Day Free Trial</a>
+          <div class="card-note">No credit card. Cancel anytime.</div>
+          <div class="card-social-proof">Join 1,000+ growing service businesses</div>
+        </div>
+
+        <!-- BUSINESS Card -->
+        <div class="pricing-card biz-card">
+          <div class="card-badge biz-badge">★ Best Value</div>
+          <div class="card-plan">BUSINESS</div>
+          <div class="card-price">₹10,000 <span>/ month</span></div>
+          <div class="card-price-day">Unlimited everything. Dedicated support.</div>
+          <div class="card-desc">For enterprises and multi-location businesses. Unlimited everything — bookings, contacts, team members, AI agents. Includes dedicated account manager and priority support.</div>
+
+          <div class="card-metrics">
+            <div class="metric-pill">Unlimited Everything</div>
+            <div class="metric-pill">6 AI Agents</div>
+            <div class="metric-pill">Dedicated Manager</div>
+          </div>
+
+          <div class="card-features">
+            <div class="feature-category">
+              <div class="feature-cat-name">Usage Limits</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Unlimited Contacts</li>
+                <li><span class="ck">✓</span> 6 Agents</li>
+                <li><span class="ck">✓</span> Unlimited Teams</li>
+                <li><span class="ck">✓</span> Unlimited Appointment Bookings</li>
+              </ul>
+            </div>
+            <div class="feature-category">
+              <div class="feature-cat-name">Unlimited</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Template Bots</li>
+                <li><span class="ck">✓</span> Message Bots</li>
+                <li><span class="ck">✓</span> Campaigns</li>
+                <li><span class="ck">✓</span> AI Prompts</li>
+                <li><span class="ck">✓</span> Conversations</li>
+                <li><span class="ck">✓</span> Bot Flow</li>
+                <li><span class="ck">✓</span> Custom Fields</li>
+                <li><span class="ck">✓</span> Tags</li>
+                <li><span class="ck">✓</span> WhatsApp Forms</li>
+                <li><span class="ck">✓</span> AI Calling Agent</li>
+                <li><span class="ck">✓</span> Facebook Ads Campaign</li>
+                <li><span class="ck">✓</span> Kanban Funnels</li>
+                <li><span class="ck">✓</span> Segments</li>
+              </ul>
+            </div>
+            <div class="feature-category">
+              <div class="feature-cat-name">Features</div>
+              <ul class="feature-cat-items">
+                <li><span class="ck">✓</span> Rest API</li>
+                <li><span class="ck">✓</span> WhatsApp Webhook</li>
+                <li><span class="ck">✓</span> Auto Replies</li>
+                <li><span class="ck">✓</span> Analytics</li>
+                <li><span class="ck">✓</span> Priority Support</li>
+              </ul>
+            </div>
+          </div>
+
+          <a href="https://app.wtflo.com/auth/register" target="_blank" class="card-cta dark">→ Start 7-Day Free Trial</a>
+          <div class="card-note">Full access. Talk to our team.</div>
+          <a href="https://wa.me/918796965200?text=Hi%2C%20I%27d%20like%20to%20discuss%20the%20Business%20plan" target="_blank" class="card-cta-secondary">📞 Book a Demo Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING FAQ -->
+  <section class="pricing-faq" id="pricing-faq">
     <div class="container">
       <div class="reveal section-center">
-        <div class="section-label">What Our Users Say</div>
-        <h2 class="section-title">Real businesses. Real results.</h2>
-        <p class="section-sub">Here's what happens when you stop replying manually and start automating.</p>
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Got questions? We've got answers.</h2>
       </div>
-      <div class="testimonials-grid">
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
-          <p class="testimonial-text">"We were manually replying to 200+ messages a day. After switching to Wtflo, our response time dropped from 4 hours to under 2 minutes. Engagement went from 35% to 90% in 3 weeks."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            </div>
-            <div>
-              <div class="testimonial-name">Clinic Chain, Delhi NCR</div>
-              <div class="testimonial-role">Healthcare &middot; 12 locations</div>
-            </div>
-          </div>
+      <div class="faq-list reveal" style="max-width: 720px; margin: 0 auto;">
+        <div class="faq-item open">
+          <button class="faq-q">When should I upgrade from FREE? <span class="plus">+</span></button>
+          <div class="faq-a">Upgrade when you're hitting 10 bookings per month consistently. A simple rule: if you're turning away customers or need multiple team members, it's time for Professional.</div>
         </div>
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
-          <p class="testimonial-text">"We used to spend 3 hours every day sending order updates manually. Wtflo automated 90% of it. Our support team now handles 5x more customers with the same headcount."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-            </div>
-            <div>
-              <div class="testimonial-name">D2C Brand, Mumbai</div>
-              <div class="testimonial-role">E-commerce &middot; 500+ orders/month</div>
-            </div>
-          </div>
+        <div class="faq-item">
+          <button class="faq-q">Do I need a new WhatsApp number? <span class="plus">+</span></button>
+          <div class="faq-a">No. You can use your existing WhatsApp Business number. We help you migrate it to the WhatsApp Business API — no data loss, no downtime. Your customers won't notice any change.</div>
         </div>
-        <div class="testimonial-card reveal">
-          <div class="testimonial-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
-          <p class="testimonial-text">"We run a coaching institute with 8,000 students. Before Wtflo, sending class reminders took 2 staff members all day. Now the chatbot handles it and attendance went up 40%."</p>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-            </div>
-            <div>
-              <div class="testimonial-name">Coaching Institute, Pune</div>
-              <div class="testimonial-role">EdTech &middot; 8,000 students</div>
-            </div>
-          </div>
+        <div class="faq-item">
+          <button class="faq-q">How long does setup take? <span class="plus">+</span></button>
+          <div class="faq-a">Most businesses are live within 24-48 hours. We handle the API setup, green tick verification, and bot configuration. You just tell us what you need.</div>
         </div>
+        <div class="faq-item">
+          <button class="faq-q">Can I change plans later? <span class="plus">+</span></button>
+          <div class="faq-a">Yes! Upgrade or downgrade anytime. No long-term contracts. Your new price takes effect at the next billing cycle.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">What happens after the 7-day free trial? <span class="plus">+</span></button>
+          <div class="faq-a">After 7 days, if you don't add a payment method, your account pauses. All your data is safe. Upgrade whenever you're ready.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is my customer data safe? <span class="plus">+</span></button>
+          <div class="faq-a">Yes. We use bank-grade encryption and store data on secure Indian servers. We're fully compliant with WhatsApp and Meta data policies. Your customer data is never shared with third parties.</div>
+        </div>
+      </div>
+      <div class="trust-signals reveal">
+        <div class="trust-signal"><span class="ck">✓</span> Service Businesses Trust wtflo</div>
+        <div class="trust-signal"><span class="ck">✓</span> 7-day free trial. No credit card required.</div>
+        <div class="trust-signal"><span class="ck">✓</span> Cancel anytime. No long-term contracts.</div>
+        <div class="trust-signal"><span class="ck">✓</span> 24/7 WhatsApp Support on BUSINESS plans</div>
       </div>
     </div>
   </section>
@@ -1105,24 +3695,9 @@
       </div>
       <div class="usecases-grid">
         <div class="usecase-card reveal">
-          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
-          <h4>E-commerce Stores</h4>
-          <p>Send order updates, track deliveries, answer product questions automatically.</p>
-        </div>
-        <div class="usecase-card reveal">
-          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-          <h4>Real Estate</h4>
-          <p>Reply to property inquiries instantly, schedule site visits, send listings.</p>
-        </div>
-        <div class="usecase-card reveal">
           <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
           <h4>Clinics & Hospitals</h4>
           <p>Book appointments, send reminders, share reports via WhatsApp.</p>
-        </div>
-        <div class="usecase-card reveal">
-          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div>
-          <h4>Hotels & Travel</h4>
-          <p>Handle bookings, share confirmations, answer guest questions 24/7.</p>
         </div>
         <div class="usecase-card reveal">
           <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg></div>
@@ -1130,203 +3705,14 @@
           <p>Take orders, manage reservations, send offers to regulars.</p>
         </div>
         <div class="usecase-card reveal">
-          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
-          <h4>EdTech & Coaching</h4>
-          <p>Send reminders, share material, collect fees automatically.</p>
+          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <h4>Real Estate</h4>
+          <p>Reply to property inquiries instantly, schedule site visits, send listings.</p>
         </div>
         <div class="usecase-card reveal">
-          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-          <h4>Recruitment</h4>
-          <p>Screen applicants, schedule interviews, send offer letters via chatbot.</p>
-        </div>
-        <div class="usecase-card reveal">
-          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></div>
-          <h4>Events & Community</h4>
-          <p>Sell tickets, send reminders, manage guest lists with QR check-in.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- BEFORE VS AFTER -->
-  <section class="before-after" id="before-after">
-    <div class="container">
-      <div class="reveal section-center">
-        <div class="section-label">The Difference</div>
-        <h2 class="section-title">What changes when you switch to Wtflo</h2>
-        <p class="section-sub">Real results from businesses like yours. This is what automation actually looks like.</p>
-      </div>
-      <div class="ba-grid">
-        <div class="ba-card before reveal">
-          <div class="ba-label">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(224,58,58,0.3)"/><path d="M5 5l6 6M11 5l-6 6" stroke="#e03a3a" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Before Wtflo
-          </div>
-          <ul class="ba-list">
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Staff manually copying and pasting replies all day</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Customers waiting 4+ hours for a response</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Missing leads because messages get lost</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> No way to track who messaged or what they said</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Paying per message, costs keep adding up</li>
-          </ul>
-          <div class="ba-stat">
-            <span class="ba-stat-num">35%</span>
-            <span class="ba-stat-label">Average customer response rate</span>
-          </div>
-        </div>
-        <div class="ba-card after reveal">
-          <div class="ba-label">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(0,240,122,0.3)"/><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            After Wtflo
-          </div>
-          <ul class="ba-list">
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Bot handles 90% of common questions instantly</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Customers get replies in under 2 minutes</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Every lead captured and followed up automatically</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Full conversation history, tags, and analytics</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Fixed &#8377;2,500/month — unlimited messages</li>
-          </ul>
-          <div class="ba-stat">
-            <span class="ba-stat-num">94%</span>
-            <span class="ba-stat-label">Average customer response rate</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <div class="reveal section-center">
-        <div class="section-label">Simple Pricing</div>
-        <h2 class="section-title">Build your perfect plan</h2>
-        <p class="section-sub">Start with everything. Add what you need. Pay only for what you use.</p>
-      </div>
-      <div class="pricing-layout reveal">
-        <div class="plan-card">
-          <div class="plan-name">Pro Plan</div>
-          <div class="plan-price" id="basePrice">&#8377;2,500 <span>/ month</span></div>
-          <p class="plan-desc">Unlimited access to all features. 2 team members included.</p>
-          <ul class="plan-features">
-            <li><span class="ck">&#10003;</span> WhatsApp Business API</li>
-            <li><span class="ck">&#10003;</span> Free green tick verification</li>
-            <li><span class="ck">&#10003;</span> Facebook & Instagram integration</li>
-            <li><span class="ck">&#10003;</span> Visual drag & drop bot builder</li>
-            <li><span class="ck">&#10003;</span> Smart CRM with tagging</li>
-            <li><span class="ck">&#10003;</span> Calendar & appointment booking</li>
-            <li><span class="ck">&#10003;</span> Tickets & QR code system</li>
-            <li><span class="ck">&#10003;</span> Rewards & loyalty program</li>
-            <li><span class="ck">&#10003;</span> Automation builder (1000+ apps)</li>
-            <li><span class="ck">&#10003;</span> Unified team inbox</li>
-            <li><span class="ck">&#10003;</span> Bulk broadcast & retargeting</li>
-            <li><span class="ck">&#10003;</span> Analytics dashboard</li>
-          </ul>
-        </div>
-
-        <div class="addons-panel">
-          <div class="addons-title">Add-ons</div>
-
-          <div class="addon-card" data-addon="members" data-price="500">
-            <div class="addon-info">
-              <div class="addon-name">+ Extra Team Member</div>
-              <div class="addon-price"><strong>&#8377;500</strong> / month / person</div>
-            </div>
-            <button class="addon-btn addon-btn-add" aria-label="Add team member">+</button>
-            <div class="addon-count">
-              <button class="addon-count-btn minus" aria-label="Remove">-</button>
-              <span class="addon-count-num">1</span>
-              <button class="addon-count-btn plus" aria-label="Add">+</button>
-            </div>
-          </div>
-
-          <div class="addon-card" data-addon="whatsapp" data-price="500">
-            <div class="addon-info">
-              <div class="addon-name">+ Extra WhatsApp API Number</div>
-              <div class="addon-price"><strong>&#8377;500</strong> / month / number</div>
-            </div>
-            <button class="addon-btn addon-btn-add" aria-label="Add WhatsApp number">+</button>
-            <div class="addon-count">
-              <button class="addon-count-btn minus" aria-label="Remove">-</button>
-              <span class="addon-count-num">1</span>
-              <button class="addon-count-btn plus" aria-label="Add">+</button>
-            </div>
-          </div>
-
-          <div class="checkout-section">
-            <div class="checkout-row">
-              <span>Pro Plan</span>
-              <span>&#8377;2,500</span>
-            </div>
-            <div id="addonLines"></div>
-            <div class="checkout-row total">
-              <span>Total</span>
-              <span class="amount" id="totalPrice">&#8377;2,500</span>
-            </div>
-            <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
-            <p class="checkout-note">Pay via WhatsApp. Razorpay integration coming soon.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="faq" id="faq">
-    <div class="container">
-      <div class="reveal section-center">
-        <div class="section-label">FAQ</div>
-        <h2 class="section-title">Frequently asked questions</h2>
-        <p class="section-sub" style="margin-bottom:40px;">Everything you need to know about Wtflo.</p>
-      </div>
-      <div class="faq-list reveal">
-        <div class="faq-item open">
-          <button class="faq-q">What does Wtflo do? <span class="plus">+</span></button>
-          <div class="faq-a">Wtflo is a complete business communication platform. You can send bulk WhatsApp messages, build chatbots, manage Instagram and Facebook messages, collect payments, run loyalty programs, book appointments, sell tickets, and much more. All from one simple dashboard.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Is Wtflo an official WhatsApp partner? <span class="plus">+</span></button>
-          <div class="faq-a">Yes. Wtflo is built on official WhatsApp Business APIs. We are an Official Meta Business Solution Partner, fully compliant with all WhatsApp rules and guidelines.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">What is included in the &#8377;2,500 plan? <span class="plus">+</span></button>
-          <div class="faq-a">Everything. The &#8377;2,500/month plan gives you unlimited access to all features including WhatsApp API, green tick verification, Facebook & Instagram integration, visual bot builder, smart CRM, calendar booking, tickets & QR system, rewards & loyalty program, automation builder with 1000+ app integrations, unified team inbox, bulk broadcasting, and analytics. You also get 2 team members included.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Will I get a green tick on my WhatsApp number? <span class="plus">+</span></button>
-          <div class="faq-a">Yes. The plan includes free official green tick verification for your WhatsApp Business number. No extra charges or hidden fees.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">What happens if I need more team members? <span class="plus">+</span></button>
-          <div class="faq-a">The plan already includes 2 team members. If you need more, you can add extra members for just &#8377;500 per person per month. There is no limit on how many you can add. You can add or remove team members anytime from your dashboard.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Can I try Wtflo before paying? <span class="plus">+</span></button>
-          <div class="faq-a">Yes. We offer a free trial so you can explore the platform and see if it fits your business needs before committing. No credit card required.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">How does billing work? <span class="plus">+</span></button>
-          <div class="faq-a">You are billed monthly on the same date you signed up. Payment is automatic via Razorpay. You can view and download invoices from your dashboard anytime.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Can I cancel anytime? <span class="plus">+</span></button>
-          <div class="faq-a">Yes. You can cancel your subscription anytime from your dashboard. There are no lock-in contracts or cancellation fees. Your plan stays active until the end of your current billing cycle.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">What kind of support do you offer? <span class="plus">+</span></button>
-          <div class="faq-a">All plans include email support with a response time under 4 hours during business hours. You also get access to our knowledge base, video tutorials, and a dedicated onboarding specialist for the first 30 days.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Does Wtflo integrate with my existing tools? <span class="plus">+</span></button>
-          <div class="faq-a">Yes. Wtflo connects with 1000+ apps including Shopify, WooCommerce, Google Sheets, HubSpot, Salesforce, Zapier, and more. You can also use our REST API for custom integrations.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">Is my data safe? <span class="plus">+</span></button>
-          <div class="faq-a">Absolutely. We use bank-grade encryption, store data on secure Indian servers, and are fully compliant with WhatsApp and Meta data policies. Your customer data is never shared with third parties.</div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q">What is a WhatsApp API number? <span class="plus">+</span></button>
-          <div class="faq-a">A WhatsApp API number is a separate phone number connected to the WhatsApp Business API. This lets you send automated messages, bulk broadcasts, and use chatbots. Each number costs &#8377;500/month as an addon. The base plan includes 1 number.</div>
+          <div class="usecase-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
+          <h4>E-commerce Stores</h4>
+          <p>Send order updates, track deliveries, answer product questions automatically.</p>
         </div>
       </div>
     </div>
@@ -1336,15 +3722,15 @@
   <section class="cta" id="cta">
     <div class="container reveal">
       <h2>Your customers are on WhatsApp — are you showing up?</h2>
-      <p>Join 23,000+ businesses that use Wtflo to automate communication, save time, and grow revenue.</p>
+      <p>Automate conversations, save time, and grow revenue on WhatsApp.</p>
       <div class="cta-buttons">
-        <a href="https://dashboard.wtflo.com" target="_blank" class="btn-primary">Start Free Trial</a>
-        <a href="https://wa.me/918069871810" class="btn-secondary">Chat with us on WhatsApp</a>
+        <a href="https://app.wtflo.com/auth/register" target="_blank" class="btn-primary">Start Free Trial</a>
+        <a href="https://wa.me/918796965200" class="btn-secondary">Chat with us on WhatsApp</a>
       </div>
       <div class="cta-stats">
-        <div><div class="cta-stat-num">23,000+</div><div class="cta-stat-label">Indian businesses</div></div>
-        <div><div class="cta-stat-num">10M+</div><div class="cta-stat-label">Conversations automated</div></div>
-        <div><div class="cta-stat-num">2min</div><div class="cta-stat-label">Avg. response time</div></div>
+        <div><div class="cta-stat-num">0 min</div><div class="cta-stat-label">Manual response time</div></div>
+        <div><div class="cta-stat-num">60%</div><div class="cta-stat-label">Fewer no-shows</div></div>
+        <div><div class="cta-stat-num">100%</div><div class="cta-stat-label">Payments upfront</div></div>
         <div><div class="cta-stat-num">94%</div><div class="cta-stat-label">Delivery rate</div></div>
       </div>
     </div>
@@ -1357,10 +3743,7 @@
           <div class="footer-logo">wtflo</div>
           <p class="footer-tagline">WhatsApp marketing automation built for Indian service businesses. Automate conversations, close leads, grow revenue.</p>
           <div class="footer-socials">
-            <a href="#" class="footer-social" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
-            <a href="#" class="footer-social" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-            <a href="#" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-            <a href="https://wa.me/918069871810" target="_blank" class="footer-social" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></a>
+            <a href="https://www.instagram.com/wtflo.india/" target="_blank" class="footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
           </div>
         </div>
         <div class="footer-col">
@@ -1369,8 +3752,7 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#pricing">Pricing</a></li>
             <li><a href="#demo">Live Demo</a></li>
-            <li><a href="https://dashboard.wtflo.com" target="_blank">Dashboard</a></li>
-            <li><a href="#">API Docs</a></li>
+            <li><a href="https://app.wtflo.com/auth/register" target="_blank">Dashboard</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1379,35 +3761,29 @@
             <li><a href="#usecases">Clinics & Hospitals</a></li>
             <li><a href="#usecases">Restaurants & Cafes</a></li>
             <li><a href="#usecases">Real Estate</a></li>
-            <li><a href="#usecases">EdTech & Coaching</a></li>
             <li><a href="#usecases">E-commerce</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Company</h4>
           <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Partner Program</a></li>
+            <li><a href="https://wa.me/918796965200" target="_blank">Contact Us</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <div class="footer-copy">
-          &copy; 2026 Wtflo. All rights reserved. &nbsp;
-          <a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Refund Policy</a>
+          &copy; 2026 Wtflo. All rights reserved. | 
+          <a href="privacy-policy.html">Privacy Policy</a> | 
+          <a href="terms-of-service.html">Terms of Service</a> | 
+          <a href="refund-policy.html">Refund Policy</a> | 
+          <a href="disclaimer.html">Disclaimer</a>
         </div>
         <div class="footer-badges">
           <span class="footer-badge"><span class="green-dot"></span> All systems operational</span>
           <span class="footer-badge">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            ISO 27001 Certified
-          </span>
-          <span class="footer-badge">
             <svg viewBox="0 0 24 24" fill="none" stroke="#f0a500" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            Meta Business Partner
+            Official Meta Tech Partner
           </span>
         </div>
       </div>
@@ -1418,132 +3794,185 @@
   <div class="popup-overlay" id="exitPopup">
     <div class="popup-card">
       <button class="popup-close" id="popupClose">&times;</button>
-      <div class="popup-badge">Limited Time Offer</div>
-      <h3>Try Wtflo Free for 14 Days</h3>
-      <p>No credit card required. Full access to every feature. Cancel anytime.</p>
+      <div class="popup-badge">Free Forever Plan</div>
+      <h3>Automate bookings. Kill no-shows. Grow 3x faster.</h3>
+      <p>Join service businesses that never miss a lead. Start in 2 minutes — no credit card, no sales calls.</p>
       <ul class="popup-features">
-        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> All 12 features unlocked</li>
-        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Free green tick verification</li>
-        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> 2 team members included</li>
-        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Dedicated onboarding support</li>
+        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> 10 bookings/month — completely free</li>
+        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> AI assistant that replies 24/7</li>
+        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Smart reminders that cut no-shows by 60%</li>
+        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Setup in 24 hours — we do it for you</li>
+        <li><span class="pf-ck"><svg viewBox="0 0 16 16" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Your customers WhatsApp you — not your competitor</li>
       </ul>
-      <button class="popup-btn" id="popupCta">Start Free Trial</button>
-      <p class="popup-note">Join 23,000+ Indian businesses already using Wtflo</p>
+      <button class="popup-btn" id="popupCta">Start for FREE →</button>
+      <p class="popup-note">No credit card. Cancel anytime.</p>
+      <div class="popup-trust">
+        <span class="popup-trust-dot"></span>
+        127 businesses signed up this week
+      </div>
     </div>
   </div>
 
   <script>
-    // Nav
+    // Nav scroll
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 60));
 
     // Mobile toggle
     const toggle = document.getElementById('mobileToggle');
     const navLinks = document.getElementById('navLinks');
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      navLinks.classList.toggle('open');
-    });
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        toggle.classList.remove('open');
-        navLinks.classList.remove('open');
-      });
-    });
+    toggle.addEventListener('click', () => { toggle.classList.toggle('open'); navLinks.classList.toggle('open'); });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { toggle.classList.remove('open'); navLinks.classList.remove('open'); }));
 
     // Scroll reveal
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    revealEls.forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
     // FAQ
-    document.querySelectorAll('.faq-q').forEach(btn => {
-      btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
-    });
+    document.querySelectorAll('.faq-q').forEach(btn => btn.addEventListener('click', () => btn.parentElement.classList.toggle('open')));
 
-    // PRICING CALCULATOR
-    const BASE = 2500;
-    const addons = {};
+    // CORE SOLUTION - Interactive Pipeline Flow
+    (function() {
+      var pipeline = document.getElementById('flowPipeline');
+      if (!pipeline) return;
+      var nodes = document.querySelectorAll('.flow-node');
+      var arrows = document.querySelectorAll('.flow-arrow-connector');
+      var detailCard = document.getElementById('flowDetailCard');
+      var detailTitle = document.getElementById('detailTitle');
+      var detailDesc = document.getElementById('detailDesc');
+      var detailTag = document.getElementById('detailTag');
+      var detailChat = document.getElementById('detailChat');
 
-    document.querySelectorAll('.addon-card').forEach(card => {
-      const name = card.dataset.addon;
-      const price = parseInt(card.dataset.price);
-      const addBtn = card.querySelector('.addon-btn-add');
-      const minusBtn = card.querySelector('.minus');
-      const plusBtn = card.querySelector('.plus');
-      const numEl = card.querySelector('.addon-count-num');
-
-      addBtn.addEventListener('click', () => {
-        card.classList.add('added');
-        addons[name] = { qty: 1, price };
-        numEl.textContent = 1;
-        updateTotal();
-      });
-
-      minusBtn.addEventListener('click', () => {
-        if (addons[name].qty > 1) {
-          addons[name].qty--;
-        } else {
-          delete addons[name];
-          card.classList.remove('added');
+      var stepData = [
+        {
+          title: 'Customer Messages You',
+          desc: 'It starts with a simple WhatsApp message. A potential customer sees your ad, visits your profile, or gets a referral \u2014 and sends "Hi, I\'d like to book." No app downloads. No form fills. Just one message.',
+          tag: '98% of Indians prefer WhatsApp over email',
+          chat: [
+            { type: 'customer', text: 'Hi, I\'d like to book an appointment' },
+            { type: 'bot', text: 'Hey! We\'d love to have you. What service are you looking for?' }
+          ]
+        },
+        {
+          title: 'Bot Qualifies the Lead',
+          desc: 'Your AI-powered bot asks the right questions \u2014 service type, preferred time, budget. It filters tire-kickers from real buyers and saves every detail to your CRM automatically.',
+          tag: 'Qualifies leads in under 30 seconds',
+          chat: [
+            { type: 'customer', text: 'I need a dental cleaning' },
+            { type: 'bot', text: 'Great choice! Preferred time \u2014 morning, afternoon, or evening?' },
+            { type: 'customer', text: 'Afternoon works best' }
+          ]
+        },
+        {
+          title: 'Calendar Books Itself',
+          desc: 'The bot checks your real-time availability, shows open slots, and confirms the booking \u2014 all inside WhatsApp. Zero double-bookings. Zero back-and-forth.',
+          tag: 'Syncs with Google Calendar',
+          chat: [
+            { type: 'bot', text: 'We have slots at 2pm, 3pm, and 4pm tomorrow. Which works?' },
+            { type: 'customer', text: '3pm please' },
+            { type: 'bot', text: 'Done! Your appointment is confirmed for tomorrow at 3pm.' }
+          ]
+        },
+        {
+          title: 'They Pay \u2014 Right There',
+          desc: 'No separate invoice. No payment link chase. The customer pays via Razorpay directly inside the WhatsApp chat. UPI, cards, net banking \u2014 all in one chat. Money collected before they even show up.',
+          tag: 'Collects payment upfront \u2014 kills no-shows',
+          chat: [
+            { type: 'bot', text: 'Your appointment total is \u20B91,500. Pay now to confirm your slot?' },
+            { type: 'customer', text: 'Yes, paying via UPI' },
+            { type: 'bot', text: 'Payment received! Your slot is confirmed. See you tomorrow!' }
+          ]
+        },
+        {
+          title: 'Follow-Up Is Automatic',
+          desc: 'One hour before: reminder. After: thank you + review request. No-show: auto-reschedule offer. Every touchpoint automated. You never forget to follow up again.',
+          tag: '60% fewer no-shows with auto-reminders',
+          chat: [
+            { type: 'bot', text: 'Hi! How was your appointment today? We\'d love your feedback' },
+            { type: 'customer', text: 'It was great, thank you!' },
+            { type: 'bot', text: 'Glad to hear! Here\'s 10% off your next visit. Book anytime on WhatsApp' }
+          ]
         }
-        numEl.textContent = addons[name] ? addons[name].qty : 0;
-        updateTotal();
-      });
+      ];
 
-      plusBtn.addEventListener('click', () => {
-        addons[name].qty++;
-        numEl.textContent = addons[name].qty;
-        updateTotal();
-      });
-    });
+      var activeIndex = 0;
+      var autoInterval;
 
-    function updateTotal() {
-      let total = BASE;
-      let lines = '';
-      for (const key in addons) {
-        const a = addons[key];
-        const sub = a.qty * a.price;
-        total += sub;
-        const label = key === 'members' ? 'Extra Team Member' : 'Extra WhatsApp Number';
-        lines += `<div class="checkout-row"><span>${label} x${a.qty}</span><span>&#8377;${sub.toLocaleString('en-IN')}</span></div>`;
+      function setActiveStep(index) {
+        activeIndex = index;
+        for (var i = 0; i < nodes.length; i++) {
+          if (i === index) nodes[i].classList.add('active');
+          else nodes[i].classList.remove('active');
+        }
+        // Light up arrows up to active step
+        for (var j = 0; j < arrows.length; j++) {
+          if (j < index) {
+            arrows[j].querySelector('svg').style.stroke = '#0d9e8a';
+          } else {
+            arrows[j].querySelector('svg').style.stroke = '';
+          }
+        }
+        var d = stepData[index];
+        detailTitle.textContent = d.title;
+        detailDesc.textContent = d.desc;
+        detailTag.textContent = d.tag;
+        var html = '';
+        for (var k = 0; k < d.chat.length; k++) {
+          var m = d.chat[k];
+          var label = m.type === 'customer' ? 'Customer' : 'Wtflo Bot';
+          html += '<div class="chat-label" style="margin-top:' + (k > 0 ? '12px' : '0') + '">' + label + '</div><div class="chat-bubble ' + m.type + '">' + m.text + '</div>';
+        }
+        detailChat.innerHTML = html;
       }
-      document.getElementById('addonLines').innerHTML = lines;
-      document.getElementById('totalPrice').textContent = '\u20B9' + total.toLocaleString('en-IN');
-    }
 
-    // Checkout button — opens WhatsApp for manual setup until Razorpay is live
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
-      const total = document.getElementById('totalPrice').textContent;
-      const msg = encodeURIComponent(`Hi, I'd like to subscribe to Wtflo. My plan total is ${total}. Please share the payment link.`);
-      window.open(`https://wa.me/918069871810?text=${msg}`, '_blank');
-    });
-
-    // Exit-intent popup
-    const exitPopup = document.getElementById('exitPopup');
-    const popupClose = document.getElementById('popupClose');
-    const popupCta = document.getElementById('popupCta');
-    let popupShown = false;
-
-    document.addEventListener('mouseleave', (e) => {
-      if (!popupShown && e.clientY <= 0) {
-        exitPopup.classList.add('active');
-        popupShown = true;
+      function startAutoPlay() {
+        autoInterval = setInterval(function() {
+          activeIndex = (activeIndex + 1) % nodes.length;
+          setActiveStep(activeIndex);
+        }, 3000);
       }
-    });
 
-    popupClose.addEventListener('click', () => exitPopup.classList.remove('active'));
-    popupCta.addEventListener('click', () => {
-      window.open('https://dashboard.wtflo.com', '_blank');
-      exitPopup.classList.remove('active');
-    });
-    exitPopup.addEventListener('click', (e) => {
-      if (e.target === exitPopup) exitPopup.classList.remove('active');
-    });
+      for (var i = 0; i < nodes.length; i++) {
+        (function(idx) {
+          nodes[idx].addEventListener('click', function() { clearInterval(autoInterval); setActiveStep(idx); startAutoPlay(); });
+          nodes[idx].addEventListener('mouseenter', function() { clearInterval(autoInterval); setActiveStep(idx); });
+          nodes[idx].addEventListener('mouseleave', function() { clearInterval(autoInterval); startAutoPlay(); });
+        })(i);
+      }
+
+      setActiveStep(0);
+      startAutoPlay();
+    })();
+
+    // FEATURE TREE - Interactive expand/collapse
+    (function() {
+      var branches = document.querySelectorAll('.tree-branch');
+      branches.forEach(function(branch) {
+        branch.addEventListener('click', function() {
+          var isActive = branch.classList.contains('active');
+          // Close all other branches
+          branches.forEach(function(b) { b.classList.remove('active'); });
+          // Toggle current branch
+          if (!isActive) {
+            branch.classList.add('active');
+          }
+        });
+      });
+      // Open first branch by default
+      if (branches.length > 0) {
+        branches[0].classList.add('active');
+      }
+    })();
+
+    // Exit popup
+    var exitPopup = document.getElementById('exitPopup');
+    var popupShown = false;
+    document.addEventListener('mouseleave', function(e) { if (!popupShown && e.clientY <= 0) { exitPopup.classList.add('active'); popupShown = true; } });
+    document.getElementById('popupClose').addEventListener('click', function() { exitPopup.classList.remove('active'); });
+    document.getElementById('popupCta').addEventListener('click', function() { window.open('https://app.wtflo.com/auth/register', '_blank'); exitPopup.classList.remove('active'); });
+    exitPopup.addEventListener('click', function(e) { if (e.target === exitPopup) exitPopup.classList.remove('active'); });
   </script>
 </body>
 </html>
