@@ -290,16 +290,36 @@
 
     /* INTEGRATIONS */
     .integrations-row {
-      display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap;
+      display: flex; justify-content: center; align-items: stretch; gap: 16px;
+      flex-wrap: nowrap; overflow-x: auto; padding: 8px 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .integrations-row::-webkit-scrollbar { display: none; }
     .integration-logo {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
-      padding: 20px 24px; border-radius: 14px;
+      padding: 20px 16px; border-radius: 14px;
       background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
-      transition: 0.3s; min-width: 110px;
+      transition: 0.3s; min-width: 140px; flex: 1;
     }
     .integration-logo:hover { border-color: rgba(13,158,138,0.25); background: rgba(13,158,138,0.04); transform: translateY(-3px); }
     .integration-logo span { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6); }
+
+    @media (max-width: 768px) {
+      .integrations-row {
+        flex-wrap: wrap;
+        gap: 12px;
+        overflow-x: visible;
+      }
+      .integration-logo {
+        min-width: calc(50% - 6px);
+        flex: 0 0 calc(50% - 6px);
+        padding: 16px 12px;
+      }
+      .integration-logo span {
+        font-size: 12px;
+      }
+    }
 
     /* TESTIMONIALS */
     .testimonials { background: linear-gradient(180deg, rgba(13,158,138,0.03) 0%, #051f1f 100%); }
@@ -1422,7 +1442,7 @@
 
     /* FEATURE TREE */
     .feature-tree { 
-      padding: 100px 0 80px; 
+      padding: 100px 0 60px; 
       background: linear-gradient(180deg, rgba(13,158,138,0.03) 0%, #051f1f 100%);
       overflow: hidden;
     }
@@ -1552,7 +1572,7 @@
 
     /* Center connector line */
     .tree-center {
-      text-align: center; margin: 48px 0 40px;
+      text-align: center; margin: 32px 0 0;
       position: relative;
     }
     .tree-center::before {
@@ -1577,11 +1597,11 @@
     /* ========================================
        PRICING REDESIGN
        ======================================== */
-    .pricing { padding: 100px 0 80px; }
+    .pricing { padding: 80px 0; }
 
     /* Tier Differentiation */
     .tier-diff {
-      text-align: center; margin-bottom: 80px;
+      text-align: center; margin-bottom: 48px;
     }
     .tier-diff-label {
       font-size: 13px; font-weight: 600; color: #0d9e8a;
@@ -1957,7 +1977,7 @@
 
     /* Section spacing adjustments */
     .section-center {
-      margin-bottom: 64px;
+      margin-bottom: 48px;
     }
 
     .section-center .section-sub {
@@ -2696,7 +2716,7 @@
         </div>
         <div class="hero-checks hero-fade">
           <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Free Green Tick Verification</span>
-          <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> &#8377;2,500/Month — Unlimited</span>
+          <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Free plan available — no card needed</span>
           <span class="hero-check"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#00f07a"/><path d="M5 8l2 2 4-4" stroke="#051f1f" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Made in India</span>
         </div>
         <div class="hero-stats-row hero-fade">
@@ -2869,8 +2889,8 @@
     <div class="container">
       <div class="reveal section-center">
         <div class="section-label">The Difference</div>
-        <h2 class="section-title">What changes when you switch to Wtflo</h2>
-        <p class="section-sub">This is what automation actually looks like.</p>
+        <h2 class="section-title">Your WhatsApp, but on autopilot</h2>
+        <p class="section-sub">Same number. Same customers. Completely different experience.</p>
       </div>
       <div class="ba-grid">
         <div class="ba-card before reveal">
@@ -2879,15 +2899,15 @@
             Before Wtflo
           </div>
           <ul class="ba-list">
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Staff manually copying and pasting replies all day</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Customers waiting 4+ hours for a response</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Missing leads because messages get lost</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> No way to track who messaged or what they said</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Paying per message, costs keep adding up</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Manually replying to every WhatsApp message</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Customers waiting hours for a reply</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Forgetting to send appointment reminders</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> Leads slipping through the cracks</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="#e03a3a" stroke-width="1.2" stroke-linecap="round"/></svg></span> No idea who your best customers are</li>
           </ul>
           <div class="ba-stat">
             <span class="ba-stat-num">35%</span>
-            <span class="ba-stat-label">Average customer response rate</span>
+            <span class="ba-stat-label">Average response rate</span>
           </div>
         </div>
         <div class="ba-card after reveal">
@@ -2896,15 +2916,15 @@
             After Wtflo
           </div>
           <ul class="ba-list">
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Bot handles 90% of common questions instantly</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Customers get replies in under 2 minutes</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Every lead captured and followed up automatically</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Full conversation history, tags, and analytics</li>
-            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Fixed &#8377;2,500/month — unlimited messages</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Bot replies instantly — 24/7, even at 2am</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Reminders go out automatically — no no-shows</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Every lead captured and followed up</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Full history, tags, and customer profiles</li>
+            <li><span class="ba-icon"><svg viewBox="0 0 12 12" fill="none"><path d="M5 8l2 2 4-4" stroke="#00f07a" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span> Fixed monthly pricing — no per-message charges</li>
           </ul>
           <div class="ba-stat">
             <span class="ba-stat-num">94%</span>
-            <span class="ba-stat-label">Average customer response rate</span>
+            <span class="ba-stat-label">Average response rate</span>
           </div>
         </div>
       </div>
@@ -3017,32 +3037,32 @@
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
             <span>Razorpay</span>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Collect payments inside WhatsApp. No separate links.</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;">Payments inside WhatsApp</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-            <span>OpenAI / ChatGPT</span>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Powers your AI bot. Understands what customers actually mean.</p>
+            <span>OpenAI</span>
+            <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;">AI-powered replies</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
             <span>Google Calendar</span>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Bookings sync to staff calendars. No double-bookings.</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;">Syncs with staff calendars</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-            <span>Facebook & Instagram</span>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Ad clicks and DMs land straight in your WhatsApp bot.</p>
+            <span>Facebook & IG</span>
+            <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;">Ad leads to WhatsApp</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <span>Google Sheets</span>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Export leads and data to sheets. Built-in reporting.</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;">Export leads & data</p>
           </div>
           <div class="integration-logo">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0d9e8a" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
             <span>Zapier</span>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;max-width:140px;">Connect to 5000+ apps. CRM, sheets, invoicing — all linked.</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:6px;text-align:center;">Connect 5000+ apps</p>
           </div>
         </div>
       </div>
@@ -3442,6 +3462,12 @@
   <!-- PRICING -->
   <section class="pricing" id="pricing">
     <div class="container">
+      <div class="section-center reveal">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Plans that grow with your business</h2>
+        <p class="section-sub">Start free. Upgrade when you're ready. No surprises.</p>
+      </div>
+
       <!-- Tier Differentiation -->
       <div class="tier-diff reveal">
         <div class="tier-diff-label">Which plan fits your business?</div>
