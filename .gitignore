@@ -1,0 +1,12 @@
+.DS_Store
+node_modules/
+.env
+.env.local
+.env.prod
+.env.test
+.vercel/
+*.log
+Wtflo Assets/
+Wtflo Invoices/
+Wtflo Source Code/
+Wtflo Landing Pages/
